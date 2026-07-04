@@ -163,10 +163,35 @@
   footer .wrap { display: flex; flex-wrap: wrap; gap: 1rem; justify-content: space-between; }
   footer a { color: var(--accent); }
 
+  /* ── cinematic photo scene bands ─────────── */
+  .scene { position: relative; height: 62vh; min-height: 360px; overflow: hidden; margin: 1rem 0; border-block: 1px solid var(--border); }
+  .scene-img { position: absolute; inset: -12% 0; will-change: transform; }
+  .scene-img::before {
+    content: ""; position: absolute; inset: 0; background: var(--img) center/cover no-repeat;
+    transform: scale(1.06); animation: kenburns 26s ease-in-out infinite alternate;
+  }
+  @keyframes kenburns { from { transform: scale(1.06) translate(0,0); } to { transform: scale(1.2) translate(2%, -2%); } }
+  .scene-tint {
+    position: absolute; inset: 0;
+    background:
+      linear-gradient(180deg, var(--bg) 0%, transparent 22%, transparent 70%, var(--bg) 100%),
+      linear-gradient(90deg, rgba(3,6,8,.88) 0%, rgba(3,6,8,.4) 55%, rgba(34,211,238,.08) 100%);
+  }
+  .scene-grid { position: absolute; inset: 0; opacity: .4; background-image: linear-gradient(rgba(34,211,238,.05) 1px, transparent 1px), linear-gradient(90deg, rgba(34,211,238,.05) 1px, transparent 1px); background-size: 40px 40px; }
+  .scene-cap { position: absolute; left: 0; right: 0; bottom: 0; }
+  .scene-cap .wrap { padding-block: 2rem; }
+  .scene-cap .tag { font-size: .72rem; letter-spacing: .2em; text-transform: uppercase; color: var(--accent); text-shadow: 0 0 12px rgba(34,211,238,.6); }
+  .scene-cap h3 { font-family: var(--disp); font-size: clamp(1.4rem, 4vw, 2.3rem); color: #eef6fb; margin: .35rem 0 .3rem; letter-spacing: -.01em; }
+  .scene-cap p { font-size: .9rem; color: #bcccd8; max-width: 34em; margin: 0; }
+  .scene-cap .inner { opacity: 0; transform: translateY(22px); transition: opacity .8s ease, transform .8s ease; }
+  .scene.on .scene-cap .inner { opacity: 1; transform: none; }
+
   @media (prefers-reduced-motion: reduce) {
     .reveal { opacity: 1; transform: none; transition: none; }
     .bar i { transition: none; width: var(--w); }
     .prompt .cursor, .role .type-caret, .scrollhint { animation: none; }
+    .scene-img::before { animation: none; transform: scale(1.06); }
+    .scene-cap .inner { opacity: 1; transform: none; transition: none; }
     html { scroll-behavior: auto; }
   }
 </style>
@@ -206,6 +231,17 @@
   </div>
 </nav>
 
+<div class="scene" style="--img:url(assets/img/schematic.jpg)">
+  <div class="scene-img"></div>
+  <div class="scene-tint"></div>
+  <div class="scene-grid"></div>
+  <div class="scene-cap"><div class="wrap"><div class="inner">
+    <span class="tag">// the approach</span>
+    <h3>Learn the system, then test it</h3>
+    <p>Building secure infrastructure and then attacking it — the two halves of understanding how things actually break.</p>
+  </div></div></div>
+</div>
+
 <section id="experience">
   <div class="wrap reveal">
     <h2><span class="n">[01]</span> Work experience</h2>
@@ -233,6 +269,17 @@
     </div>
   </div>
 </section>
+
+<div class="scene" style="--img:url(assets/img/matrix.jpg)">
+  <div class="scene-img"></div>
+  <div class="scene-tint"></div>
+  <div class="scene-grid"></div>
+  <div class="scene-cap"><div class="wrap"><div class="inner">
+    <span class="tag">// hands on</span>
+    <h3>Labs, not just lectures</h3>
+    <p>Homelab infrastructure and a virtualized exploitation range — where the tools below actually get used.</p>
+  </div></div></div>
+</div>
 
 <section id="projects">
   <div class="wrap reveal">
@@ -275,6 +322,17 @@
     </div>
   </div>
 </section>
+
+<div class="scene" style="--img:url(assets/img/code.jpg)">
+  <div class="scene-img"></div>
+  <div class="scene-tint"></div>
+  <div class="scene-grid"></div>
+  <div class="scene-cap"><div class="wrap"><div class="inner">
+    <span class="tag">// toolbox</span>
+    <h3>From packets to Python</h3>
+    <p>Comfortable across the stack — scripting, containers, packet analysis, and the offensive tooling that ties them together.</p>
+  </div></div></div>
+</div>
 
 <section id="skills">
   <div class="wrap reveal">
@@ -334,91 +392,85 @@
   }, { threshold: 0.12 });
   document.querySelectorAll(".reveal").forEach(function (el) { io.observe(el); });
 
-  /* scrollspy nav + progress bar + timeline draw */
+  /* photo scenes: reveal caption + parallax drift */
+  var scenes = [].slice.call(document.querySelectorAll(".scene"));
+  var sio = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) { if (e.isIntersecting) e.target.classList.add("on"); });
+  }, { threshold: 0.25 });
+  scenes.forEach(function (s) { sio.observe(s); });
+
+  /* scrollspy nav + progress bar + timeline draw + scene parallax */
   var links = [].slice.call(document.querySelectorAll("nav.toc a"));
   var secs = links.map(function (a) { return document.querySelector(a.getAttribute("href")); });
   var bar = document.getElementById("progress");
   var tls = [].slice.call(document.querySelectorAll(".timeline"));
   function onScroll() {
-    var max = document.documentElement.scrollHeight - window.innerHeight;
-    var t = max > 0 ? window.scrollY / max : 0;
-    bar.style.width = (t * 100) + "%";
-    scrollT = t;
-    driftY = window.scrollY * 0.06;
+    var vh = window.innerHeight;
+    var max = document.documentElement.scrollHeight - vh;
+    bar.style.width = ((max > 0 ? window.scrollY / max : 0) * 100) + "%";
 
     var cur = -1;
     for (var i = 0; i < secs.length; i++) {
-      if (secs[i] && secs[i].getBoundingClientRect().top < window.innerHeight * 0.45) cur = i;
+      if (secs[i] && secs[i].getBoundingClientRect().top < vh * 0.45) cur = i;
     }
     links.forEach(function (a, i) { a.classList.toggle("live", i === cur); });
 
     tls.forEach(function (tl) {
       var r = tl.getBoundingClientRect();
-      var p = (window.innerHeight * 0.75 - r.top) / r.height;
+      var p = (vh * 0.75 - r.top) / r.height;
       tl.style.setProperty("--tl", Math.min(Math.max(p, 0), 1) * 100 + "%");
+    });
+
+    scenes.forEach(function (s) {
+      var r = s.getBoundingClientRect();
+      if (r.bottom < 0 || r.top > vh) return;
+      var img = s.querySelector(".scene-img");
+      var p = (r.top + r.height / 2 - vh / 2) / vh;
+      img.style.transform = "translateY(" + (p * 14) + "%)";
     });
   }
   window.addEventListener("scroll", onScroll, { passive: true });
 
-  /* particle network background, hue shifts with scroll */
+  /* digital-rain background (Matrix-style) — distinct from the homelab's particle net */
   var canvas = document.getElementById("net");
   var ctx = canvas.getContext("2d");
   var dpr = Math.min(window.devicePixelRatio || 1, 2);
-  var W, H, pts, scrollT = 0, driftY = 0;
-  var stops = [
-    [34, 211, 238],
-    [0, 255, 156],
-    [167, 139, 250],
-    [240, 180, 41]
-  ];
-  function lerp(a, b, t) { return a + (b - a) * t; }
-  function paletteAt(t) {
-    var x = Math.min(Math.max(t, 0), 0.9999) * (stops.length - 1);
-    var i = Math.floor(x), f = x - i;
-    var A = stops[i], B = stops[i + 1];
-    return [lerp(A[0], B[0], f) | 0, lerp(A[1], B[1], f) | 0, lerp(A[2], B[2], f) | 0];
-  }
+  var W, H, cols, drops, fontSize = 15;
+  var GLYPHS = "01ABCDEF{}[]<>/\\|=+*#$%&_x0aQWERTYZ".split("");
   function resize() {
     W = canvas.clientWidth; H = canvas.clientHeight;
     canvas.width = W * dpr; canvas.height = H * dpr;
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    var count = Math.min(110, Math.floor(W * H / 16000));
-    pts = [];
-    for (var i = 0; i < count; i++) {
-      pts.push({ x: Math.random() * W, y: Math.random() * H, vx: (Math.random() - .5) * .35, vy: (Math.random() - .5) * .35, r: Math.random() * 1.6 + .6 });
-    }
+    ctx.font = fontSize + "px 'JetBrains Mono', monospace";
+    cols = Math.floor(W / fontSize);
+    drops = [];
+    for (var i = 0; i < cols; i++) drops[i] = Math.random() * -H;
   }
-  var LINK = 130;
   function frame() {
-    ctx.clearRect(0, 0, W, H);
-    var c = paletteAt(scrollT);
-    var rgb = c[0] + "," + c[1] + "," + c[2];
-    for (var i = 0; i < pts.length; i++) {
-      var p = pts[i];
-      p.x += p.vx; p.y += p.vy;
-      if (p.x < -20) p.x = W + 20; else if (p.x > W + 20) p.x = -20;
-      if (p.y < -20) p.y = H + 20; else if (p.y > H + 20) p.y = -20;
+    /* fade prior frame → trailing glow */
+    ctx.fillStyle = "rgba(3,6,8,0.09)";
+    ctx.fillRect(0, 0, W, H);
+    for (var i = 0; i < cols; i++) {
+      var x = i * fontSize, y = drops[i];
+      var ch = GLYPHS[(Math.random() * GLYPHS.length) | 0];
+      /* leading glyph brighter, trail dim cyan */
+      ctx.fillStyle = "rgba(120,240,255,0.85)";
+      ctx.fillText(ch, x, y);
+      ctx.fillStyle = "rgba(34,211,238,0.22)";
+      ctx.fillText(GLYPHS[(Math.random() * GLYPHS.length) | 0], x, y - fontSize);
+      drops[i] += fontSize;
+      if (y > H && Math.random() > 0.975) drops[i] = Math.random() * -40;
     }
-    for (i = 0; i < pts.length; i++) {
-      var a = pts[i];
-      var ay = (a.y - driftY % H + H) % H;
-      for (var j = i + 1; j < pts.length; j++) {
-        var b = pts[j];
-        var by = (b.y - driftY % H + H) % H;
-        var dx = a.x - b.x, dy = ay - by, d2 = dx * dx + dy * dy;
-        if (d2 < LINK * LINK) {
-          ctx.strokeStyle = "rgba(" + rgb + "," + ((1 - Math.sqrt(d2) / LINK) * .16) + ")";
-          ctx.beginPath(); ctx.moveTo(a.x, ay); ctx.lineTo(b.x, by); ctx.stroke();
-        }
-      }
-      ctx.fillStyle = "rgba(" + rgb + ",0.55)";
-      ctx.beginPath(); ctx.arc(a.x, ay, a.r, 0, 6.2832); ctx.fill();
-    }
-    if (!reduced) requestAnimationFrame(frame);
+    setTimeout(function () { if (!reduced) requestAnimationFrame(frame); }, 55);
   }
   window.addEventListener("resize", resize, { passive: true });
   resize(); onScroll();
-  if (reduced) { frame(); } else { requestAnimationFrame(frame); }
+  if (reduced) {
+    /* static single frame */
+    ctx.fillStyle = "rgba(3,6,8,1)"; ctx.fillRect(0, 0, W, H);
+    ctx.fillStyle = "rgba(34,211,238,0.35)";
+    for (var i = 0; i < cols; i++) ctx.fillText(GLYPHS[(Math.random() * GLYPHS.length) | 0], i * fontSize, Math.random() * H);
+  } else { requestAnimationFrame(frame); }
 })();
 </script>
 
