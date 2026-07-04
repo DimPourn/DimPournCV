@@ -444,7 +444,7 @@
     ctx.font = fontSize + "px 'JetBrains Mono', monospace";
     cols = Math.floor(W / fontSize);
     drops = [];
-    for (var i = 0; i < cols; i++) drops[i] = Math.random() * -H;
+    for (var i = 0; i < cols; i++) drops[i] = Math.random() * H;
   }
   function frame() {
     /* fade prior frame → trailing glow */
