@@ -1,0 +1,11 @@
+/* No-JS fallback: skip the phone intro, render the CV as a vertical document */
+.scene{display:none}
+body,body.locked{overflow:auto}
+.os{position:static; opacity:1}
+.os[hidden]{display:block}
+.os-wall{position:fixed; inset:0}
+.pages{position:static; display:block; overflow:visible}
+.page{height:auto; min-height:50vh}
+.rv{opacity:1; transform:none}
+.mbar i{transform:scaleX(1)}
+.dock,.chev,.homebar{display:none}
