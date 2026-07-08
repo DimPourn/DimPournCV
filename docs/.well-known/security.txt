@@ -1,0 +1,4 @@
+Contact: mailto:dvpournatzis@proton.me
+Expires: 2027-07-08T00:00:00.000Z
+Preferred-Languages: en, el
+Canonical: https://dimpourn.github.io/DimPournCV/.well-known/security.txt
