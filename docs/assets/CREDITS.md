@@ -1,9 +1,17 @@
-# Image credits
+# Credits & licenses
 
-All photographs are from [Unsplash](https://unsplash.com) under the free
-[Unsplash License](https://unsplash.com/license) (free for commercial and
-non-commercial use, no permission needed).
+## Images
 
-- `img/schematic.jpg` — Illuminated circuit schematic — https://unsplash.com/photos/1550751827-4bd374c3f58b
-- `img/terminal.jpg` — Ubuntu terminal prompt — https://unsplash.com/photos/1629654297299-c8506221ca97
-- `img/code.jpg` — Source code on screen — https://unsplash.com/photos/1461749280684-dccba630e2f6
+- `img/schematic.jpg` — Illuminated circuit schematic (used as the social-share/OG image) —
+  from [Unsplash](https://unsplash.com) under the free [Unsplash License](https://unsplash.com/license)
+  (free for commercial and non-commercial use, no permission needed).
+  https://unsplash.com/photos/1550751827-4bd374c3f58b
+
+## Fonts (self-hosted in `fonts/` — no third-party requests)
+
+Both licensed under the [SIL Open Font License 1.1](https://openfontlicense.org/):
+
+- **Inter** — © The Inter Project Authors — https://github.com/rsms/inter
+- **Space Grotesk** — © The Space Grotesk Project Authors — https://github.com/floriankarsten/space-grotesk
+
+woff2 subsets sourced from the [Fontsource](https://fontsource.org/) npm packages.
