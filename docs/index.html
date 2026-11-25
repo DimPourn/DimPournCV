@@ -1,294 +1,439 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-type="service" data-motion>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<!-- Security: strict CSP (no inline script/style, no third-party origins), Trusted Types, no referrer leakage.
-     frame-ancestors/HSTS need HTTP headers, which GitHub Pages cannot set — everything header-independent is applied here. -->
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests; require-trusted-types-for 'script'">
+<!-- Security: strict CSP (no inline script or style, no third-party origins) and Trusted Types.
+     Only the policy "cv-loader" may exist, and it only accepts the two vendor scripts loaded on demand (three.js, Vanta).
+     frame-ancestors and HSTS need HTTP headers, which GitHub Pages cannot set. -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests; require-trusted-types-for 'script'; trusted-types cv-loader">
 <meta name="referrer" content="strict-origin-when-cross-origin">
-<meta name="color-scheme" content="dark">
-<title>Dimitris Pournatzis — Cybersecurity CV</title>
-<meta name="description" content="Cybersecurity-focused Information Science student — network security, penetration-testing labs, and hardened self-hosted infrastructure. An interactive phone-OS CV.">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#eef0f3">
+<meta name="page-type" content="service">
+<meta name="site-kind" content="software">
+<title>Dimitris Pournatzis, cybersecurity CV</title>
+<meta name="description" content="Computer Science student in Athens with a cybersecurity internship at Alpha Bank (Microsoft Sentinel, alert triage, phishing simulations), looking for a junior SOC, Blue Team or threat intelligence role.">
 <link rel="canonical" href="https://dimpourn.github.io/DimPournCV/">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Dimitris Pournatzis — Cybersecurity CV">
-<meta property="og:description" content="Press the power button. Network security, pentest labs and hardened infrastructure — a CV that runs like a secure phone OS.">
+<meta property="og:type" content="profile">
+<meta property="og:title" content="Dimitris Pournatzis, cybersecurity CV">
+<meta property="og:description" content="Alpha Bank resilience and intelligence intern (2026), Computer Science student at AUEB, looking for a junior SOC, Blue Team or threat intelligence role.">
 <meta property="og:url" content="https://dimpourn.github.io/DimPournCV/">
-<meta property="og:image" content="https://dimpourn.github.io/DimPournCV/assets/img/schematic.jpg">
+<meta property="og:image" content="https://dimpourn.github.io/DimPournCV/assets/img/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Dimitris Pournatzis, cybersecurity student, next to a wireframe globe">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%237c3aed'/%3E%3Cstop offset='1' stop-color='%2322d3ee'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='15' fill='url(%23g)'/%3E%3Ctext x='32' y='42' font-family='Arial,sans-serif' font-size='26' font-weight='700' fill='%23fff' text-anchor='middle'%3EDP%3C/text%3E%3C/svg%3E">
-<link rel="preload" href="assets/fonts/inter-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="assets/fonts/inter-latin-600-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="assets/fonts/space-grotesk-latin-600-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="assets/fonts/space-grotesk-latin-700-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/css/site.css">
-<noscript><link rel="stylesheet" href="assets/css/nojs.css"></noscript>
-<script src="assets/js/app.js" defer></script>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='6' fill='%230b0c0e'/%3E%3Crect x='44' y='44' width='10' height='10' fill='%231f2de6'/%3E%3Ctext x='10' y='41' font-family='Arial,sans-serif' font-size='26' font-weight='700' fill='%23eef0f3'%3EDP%3C/text%3E%3C/svg%3E">
+<link rel="preload" href="assets/fonts/chivo-latin-wght.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/chivo-mono-latin-wght.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/css/site.css?v=2">
+<script src="assets/js/boot.js?v=2"></script>
+<script src="assets/js/vendor/gsap.min.js" integrity="sha384-HOvlOYPIs/zjoIkWUGXkVmXsjr8GuZLV+Q+rcPwmJOVZVpvTSXQChiN4t9Euv9Vc" defer></script>
+<script src="assets/js/vendor/ScrollTrigger.min.js" integrity="sha384-P8VzCVnT9NBUkMrpcIZrJbA7EBjJvh/fJS6PmP+4nLIM284DtsImIv8D0fFjIkeh" defer></script>
+<script src="assets/js/vendor/DrawSVGPlugin.min.js" integrity="sha384-hk4mr+NXgJSfCJFF+LKzt26e6ZekZmmXAesF9r58nbaoAqB/VAlvY4T8k2plkXf+" defer></script>
+<script src="assets/js/app.js?v=2" defer></script>
 </head>
-<body class="locked">
-
+<body>
+<!-- Deal (tasteskill 2.5): palette cool-grey-cobalt, type chivo (Chivo + Chivo Mono), radius sharp.
+     Effect: Vanta GLOBE behind the hero (poster first, live on desktop only). Moment: the HomeLab diagram assembles once. -->
 <a class="skip" href="#main">Skip to content</a>
 
-<!-- ══ SCENE 1 · the phone ══════════════════════ -->
-<div class="scene float" id="scene">
-  <div class="scene-brand">DIMITRIS&nbsp;POURNATZIS</div>
-  <div class="phone-wrap" id="phoneWrap">
-    <div class="phone" id="phone">
-      <button class="p-power" id="power" aria-label="Press the power button to open the CV"></button>
-      <span class="p-vol v1" aria-hidden="true"></span>
-      <span class="p-vol v2" aria-hidden="true"></span>
-      <div class="screen wall" id="screenEl" role="button" tabindex="0" aria-label="Unlock and open the CV">
-        <div class="island" aria-hidden="true"></div>
-        <div class="ls" id="ls">
-          <svg class="ls-lock" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
-          <div class="ls-date" id="lsDate">Wednesday, July 8</div>
-          <div class="ls-time" id="lsTime">09:41</div>
-          <div class="ls-notifs" aria-hidden="true">
-            <div class="notif">
-              <span class="nic"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 4 6v5c0 5 3.4 8.4 8 10 4.6-1.6 8-5 8-10V6z"/></svg></span>
-              <div><b>DP//SEC · CV</b><span>Cybersecurity portfolio ready — press power to view.</span></div>
-            </div>
-            <div class="notif">
-              <span class="nic g"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 17.5 9.5 12 4 6.5M12 19h8"/></svg></span>
-              <div><b>homelab</b><span>sh_lab: architecture &amp; incident write-up published.</span></div>
-            </div>
-          </div>
-          <div class="ls-unlock">
-            <div class="fp" id="fp" aria-hidden="true">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M12 11v3m-3.5-4.5a3.5 3.5 0 0 1 7 0V14m-10-3a6.5 6.5 0 0 1 13 0v2.5M5 8.5A8.5 8.5 0 0 1 20.5 12"/></svg>
-            </div>
-            <div class="ls-hint" id="lsHint">press the <b>power button</b> to open</div>
-          </div>
-        </div>
-      </div>
-      <div class="p-shadow" aria-hidden="true"></div>
-    </div>
+<header class="nav" id="nav">
+  <div class="wrap nav__in">
+    <a class="nav__brand" href="#top" aria-label="Dimitris Pournatzis, back to the top">
+      <span class="nav__mark" aria-hidden="true">DP</span>
+      <span class="nav__name">Dimitris Pournatzis</span>
+    </a>
+    <nav class="nav__links" aria-label="Sections">
+      <a href="#experience">Experience</a>
+      <a href="#homelab">HomeLab</a>
+      <a href="#skills">Skills</a>
+      <a href="#education">Education</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <a class="btn btn--primary btn--sm nav__cta" href="Dimitris-Pournatzis-CV.pdf" download>Download the CV</a>
+    <button class="nav__toggle" id="menuToggle" type="button" aria-expanded="false" aria-controls="menu" aria-label="Open the menu">
+      <span aria-hidden="true"></span><span aria-hidden="true"></span>
+    </button>
   </div>
-  <div class="scene-hint">tap the phone · or press <kbd>Enter</kbd></div>
+</header>
+
+<div class="menu" id="menu" hidden>
+  <nav class="wrap menu__in" aria-label="Sections">
+    <a href="#experience">Experience</a>
+    <a href="#homelab">HomeLab</a>
+    <a href="#skills">Skills</a>
+    <a href="#education">Education</a>
+    <a href="#contact">Contact</a>
+    <a class="btn btn--primary menu__cta" href="Dimitris-Pournatzis-CV.pdf" download>Download the CV</a>
+  </nav>
 </div>
 
-<!-- ══ SCENE 2 · DP//OS — the CV ═══════════════ -->
-<div class="os" id="os" hidden>
-  <div class="os-wall wall" id="osWall" aria-hidden="true"></div>
+<main id="main">
 
-  <header class="sbar">
-    <span class="grp"><span class="carrier">DP//SEC</span>
-      <span class="chipenc"><svg class="sic small" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>ENCRYPTED</span>
-    </span>
-    <span class="grp" id="osTime" aria-hidden="true">09:41</span>
-    <span class="grp" aria-hidden="true">
-      <svg class="sic" viewBox="0 0 24 24"><path d="M2 20h.01M7 20v-4m5 4v-8m5 8V8m5 12V4"/></svg>
-      <svg class="sic" viewBox="0 0 24 24"><path d="M5 12.5C9 8.5 15 8.5 19 12.5M8.5 16c2-2 5-2 7 0M12 19.5h.01"/></svg>
-      <span class="batt"><span class="shell"></span>100%</span>
-    </span>
-  </header>
+  <!-- 1 · HERO -->
+  <section class="hero" id="top" aria-labelledby="hero-h" data-enter>
+    <div class="hero__art" aria-hidden="true">
+      <picture>
+        <source media="(max-width: 899.98px)" srcset="assets/img/globe-sm.webp?v=2" width="900" height="900">
+        <img class="hero__poster" src="assets/img/globe.webp?v=2" alt="" width="1800" height="1125" decoding="async">
+      </picture>
+      <div class="hero__globe" id="globe"></div>
+    </div>
+    <div class="wrap hero__in">
+      <p class="hero__notice enter-fade">
+        <span class="sr-only">Athens, Greece. B.Sc. Computer Science, expected 2027.</span>
+        <span class="hero__notice-txt" aria-hidden="true" data-scramble>Athens, Greece · B.Sc. Computer Science, expected 2027</span>
+      </p>
+      <h1 class="hero__name" id="hero-h"><span class="ln"><span class="ln__i">Dimitris</span></span> <span class="ln"><span class="ln__i">Pournatzis</span></span></h1>
+      <p class="hero__role enter-fade">Cybersecurity student looking for a junior SOC, Blue&nbsp;Team or threat intelligence role.</p>
+      <p class="hero__lead enter-fade">At Alpha Bank, from March to May 2026, I monitored security logs and supported alert triage in Microsoft Sentinel. At home I run a hardened, monitored homelab on a Raspberry&nbsp;Pi&nbsp;5.</p>
+      <div class="hero__actions enter-fade">
+        <a class="btn btn--primary" href="Dimitris-Pournatzis-CV.pdf" download>
+          <svg class="btn__ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11m0 0 4.5-4.5M12 15l-4.5-4.5M5 20h14"/></svg>Download the CV</a>
+        <a class="btn btn--ghost" href="mailto:dvpournatzis@proton.me">Email me</a>
+      </div>
+    </div>
+    <button class="pause hero__pause" id="globePause" type="button" aria-pressed="false" hidden>
+      <svg class="pause__ic" viewBox="0 0 24 24" aria-hidden="true"><path class="i-pause" d="M9 6v12M15 6v12"/><path class="i-play" d="M8 5.5v13l10.5-6.5z"/></svg><span class="pause__txt">Pause the globe</span>
+    </button>
+  </section>
 
-  <main class="pages" id="main">
+  <!-- 2 · EXPERIENCE -->
+  <section class="sec" id="experience" aria-labelledby="exp-h">
+    <div class="wrap">
+      <div class="sec__head sec__head--row">
+        <h2 id="exp-h">Work experience</h2>
+        <p class="sec__sub">Two internships since 2023. The latest put me next to a bank's security monitoring, phishing and threat intelligence work.</p>
+      </div>
+      <article class="job job--lead">
+        <div class="job__meta">
+          <p class="job__when">Mar – May 2026</p>
+          <h3 class="job__role">Resilience and Intelligence Intern</h3>
+          <p class="job__org">Alpha Bank</p>
+          <ul class="tags" aria-label="Tools and areas">
+            <li>Microsoft Sentinel</li><li>Alert triage</li><li>Phishing simulation</li><li>IOC analysis</li>
+          </ul>
+        </div>
+        <ul class="job__list">
+          <li>Monitored security logs and supported alert triage in Microsoft Sentinel.</li>
+          <li>Supported phishing simulation setup, execution and security-awareness metrics.</li>
+          <li>Observed threat intelligence workflows, including IOC analysis and threat reporting.</li>
+          <li>Shadowed web application penetration tests and learned how findings are reported.</li>
+        </ul>
+      </article>
+      <div class="jobs-pair">
+        <article class="job">
+          <p class="job__when">Jun – Sep 2023</p>
+          <h3 class="job__role">IT Intern</h3>
+          <p class="job__org">Zippo Hellas, Dritsas Group</p>
+          <p class="job__text">Helped maintain the e-commerce site, fixed technical problems and kept the stock and pricing records in Excel.</p>
+        </article>
+        <article class="job">
+          <p class="job__when">Jun – Aug 2024</p>
+          <h3 class="job__role">Prop Construction Assistant</h3>
+          <p class="job__org">House of David</p>
+          <p class="job__text">Built stage props and solved fabrication problems as part of a team.</p>
+        </article>
+      </div>
+    </div>
+  </section>
 
-    <!-- 1 · PROFILE -->
-    <section class="page" id="profile" data-name="Profile" aria-label="Profile, 1 of 6">
-      <div class="pcol">
-        <div class="hero">
-          <div class="avatar rv" aria-hidden="true">DP
-            <span class="vfy"><svg viewBox="0 0 24 24"><path d="m5 13 4 4L19 7"/></svg></span>
+  <!-- 3 · HOMELAB (dark band, the page's moment) -->
+  <section class="sec sec--dark" id="homelab" aria-labelledby="lab-h" data-theme="dark">
+    <div class="wrap grid lab" id="lab">
+      <div class="col-l lab__text">
+        <h2 id="lab-h">A private security homelab</h2>
+        <p class="sec__sub">A Raspberry Pi 5 running 12 services in Docker Compose, reachable only over Tailscale. No port is open to the internet.</p>
+        <ol class="lab__points">
+          <li class="lab__pt" data-focus="access"><span class="lab__k">Access</span><span class="lab__v">No public inbound ports. My devices connect over Tailscale (WireGuard), with HTTPS through Tailscale Serve.</span></li>
+          <li class="lab__pt" data-focus="hardening"><span class="lab__k">Hardening</span><span class="lab__v">Isolated Docker networks, UFW subnet allowlists, fewer Linux capabilities and non-root containers where supported.</span></li>
+          <li class="lab__pt" data-focus="monitoring"><span class="lab__k">Monitoring</span><span class="lab__v">Prometheus, Grafana, Loki with Promtail and Alertmanager keep metrics, logs and alerts in one place.</span></li>
+          <li class="lab__pt" data-focus="testing"><span class="lab__k">Testing</span><span class="lab__v">I test the controls with Nmap, Hydra and Wireshark, and write up incidents with their root cause and fix.</span></li>
+        </ol>
+        <a class="btn btn--inv" href="https://dimpourn.github.io/sh_lab/" target="_blank" rel="noopener noreferrer">Open the project site
+          <svg class="btn__ic m-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7m0 0H9m8 0v8"/></svg></a>
+      </div>
+
+      <div class="col-r lab__fig">
+        <!-- Landscape diagram (900px and wider) -->
+        <svg class="dg dg--wide" viewBox="0 0 760 520" role="img" aria-labelledby="dg-title-w">
+          <title id="dg-title-w">HomeLab diagram: my devices reach the Raspberry Pi 5 over Tailscale; the internet has no inbound path; the Pi runs 12 Docker services, metrics and logs, and alerts; a Kali VM tests the controls.</title>
+          <g class="dg-edges">
+            <path class="dg-edge dg-edge--dash" id="w-net" data-g="access" d="M395 54V160"/>
+            <path class="dg-edge" id="w-dev" data-g="access" d="M140 265H290"/>
+            <path class="dg-edge" id="w-svc" data-g="hardening" d="M500 245C548 245 540 149 588 149"/>
+            <path class="dg-edge" id="w-mon" data-g="monitoring" d="M500 265H588"/>
+            <path class="dg-edge" id="w-alr" data-g="monitoring" d="M674 301V345"/>
+            <path class="dg-edge dg-edge--dash" id="w-test" data-g="testing" d="M395 440V370"/>
+          </g>
+          <rect class="dg-zone" data-g="hardening testing" x="270" y="160" width="250" height="210" rx="3"/>
+          <text class="dg-lab dg-lab--zone" data-g="hardening testing" x="282" y="358">UFW subnet allowlist</text>
+
+          <g class="dg-node" data-g="access">
+            <rect class="dg-box" x="305" y="8" width="180" height="46" rx="3"/>
+            <text class="dg-t" x="395" y="37" text-anchor="middle">Internet</text>
+          </g>
+          <g class="dg-block" data-g="access">
+            <circle cx="395" cy="160" r="11"/><path d="M387.2 152.2 402.8 167.8"/>
+          </g>
+          <text class="dg-lab dg-lab--warn" data-g="access" x="412" y="112">No inbound ports</text>
+
+          <g class="dg-node" data-g="access">
+            <rect class="dg-box" x="0" y="226" width="140" height="78" rx="3"/>
+            <text class="dg-t" x="16" y="259">My devices</text>
+            <text class="dg-s" x="16" y="282">Remote access</text>
+          </g>
+          <g class="dg-node" data-g="access">
+            <rect class="dg-tile" x="191" y="223" width="28" height="28" rx="3"/>
+            <image href="assets/icons/tailscale.svg" x="195" y="227" width="20" height="20"/>
+            <text class="dg-s dg-s--hi" x="205" y="290" text-anchor="middle">Tailscale</text>
+            <text class="dg-s" x="205" y="308" text-anchor="middle">WireGuard</text>
+          </g>
+
+          <g class="dg-node dg-node--hub" data-g="access hardening monitoring testing">
+            <rect class="dg-box dg-box--hub" x="290" y="196" width="210" height="138" rx="3"/>
+            <rect class="dg-tile" x="306" y="212" width="40" height="40" rx="3"/>
+            <image href="assets/icons/raspberry-pi.svg" x="315" y="216" width="22" height="32"/>
+            <text class="dg-t" x="306" y="288">Raspberry Pi 5</text>
+            <text class="dg-s" x="306" y="311">Docker Compose host</text>
+          </g>
+
+          <g class="dg-node" data-g="hardening">
+            <rect class="dg-box" x="588" y="113" width="172" height="72" rx="3"/>
+            <rect class="dg-tile" x="600" y="127" width="32" height="32" rx="3"/>
+            <image href="assets/icons/docker.svg" x="603" y="133" width="26" height="19"/>
+            <text class="dg-t" x="642" y="141">12 services</text>
+            <text class="dg-s" x="642" y="163">Isolated nets</text>
+          </g>
+          <g class="dg-node" data-g="monitoring">
+            <rect class="dg-box" x="588" y="229" width="172" height="72" rx="3"/>
+            <rect class="dg-tile" x="600" y="243" width="32" height="32" rx="3"/>
+            <image href="assets/icons/grafana.svg" x="605" y="248" width="21" height="23"/>
+            <text class="dg-t" x="642" y="257">Metrics, logs</text>
+            <text class="dg-s" x="642" y="279">Grafana, Loki</text>
+          </g>
+          <g class="dg-node" data-g="monitoring">
+            <rect class="dg-box" x="588" y="345" width="172" height="72" rx="3"/>
+            <rect class="dg-tile" x="600" y="359" width="32" height="32" rx="3"/>
+            <image href="assets/icons/prometheus.svg" x="604" y="363" width="24" height="24"/>
+            <text class="dg-t" x="642" y="373">Alerts</text>
+            <text class="dg-s" x="642" y="395">Alertmanager</text>
+          </g>
+
+          <g class="dg-node" data-g="testing">
+            <rect class="dg-box" x="305" y="440" width="180" height="72" rx="3"/>
+            <rect class="dg-tile" x="319" y="454" width="32" height="32" rx="3"/>
+            <image href="assets/icons/kalilinux.svg" x="322" y="461" width="26" height="19"/>
+            <text class="dg-t" x="361" y="468">Kali Linux</text>
+            <text class="dg-s" x="361" y="490">Nmap, Hydra</text>
+          </g>
+          <text class="dg-lab" data-g="testing" x="407" y="412">Control tests</text>
+
+          <circle class="pulse" data-path="w-dev" r="4.5"/>
+          <circle class="pulse" data-path="w-svc" r="4.5"/>
+          <circle class="pulse" data-path="w-mon" r="4.5"/>
+          <circle class="pulse" data-path="w-alr" r="4.5"/>
+          <circle class="pulse pulse--warn" data-path="w-net" data-blocked r="4.5"/>
+          <circle class="pulse pulse--test" data-path="w-test" r="4.5"/>
+        </svg>
+
+        <!-- Portrait diagram (under 900px) -->
+        <svg class="dg dg--tall" viewBox="0 0 364 644" role="img" aria-labelledby="dg-title-t">
+          <title id="dg-title-t">HomeLab diagram: my devices reach the Raspberry Pi 5 over Tailscale; the internet has no inbound path; the Pi runs 12 Docker services, metrics and logs, and alerts; a Kali VM tests the controls.</title>
+          <g class="dg-edges">
+            <path class="dg-edge dg-edge--dash" id="t-net" data-g="access" d="M85 52V140"/>
+            <path class="dg-edge" id="t-dev" data-g="access" d="M275 68V172"/>
+            <path class="dg-edge" id="t-svc" data-g="hardening" d="M40 320V390H60"/>
+            <path class="dg-edge" id="t-mon" data-g="monitoring" d="M40 320V466H60"/>
+            <path class="dg-edge" id="t-alr" data-g="monitoring" d="M200 496V512"/>
+            <path class="dg-edge dg-edge--dash" id="t-test" data-g="testing" d="M340 612H354V290H340"/>
+          </g>
+          <rect class="dg-zone" data-g="hardening testing" x="20" y="140" width="320" height="180" rx="3"/>
+          <text class="dg-lab dg-lab--zone" data-g="hardening testing" x="32" y="313">UFW subnet allowlist</text>
+
+          <g class="dg-node" data-g="access">
+            <rect class="dg-box" x="10" y="8" width="150" height="44" rx="3"/>
+            <text class="dg-t" x="85" y="36" text-anchor="middle">Internet</text>
+          </g>
+          <g class="dg-block" data-g="access">
+            <circle cx="85" cy="140" r="11"/><path d="M77.2 132.2 92.8 147.8"/>
+          </g>
+          <text class="dg-lab dg-lab--warn" data-g="access" x="97" y="92">No inbound</text>
+
+          <g class="dg-node" data-g="access">
+            <rect class="dg-box" x="200" y="8" width="150" height="60" rx="3"/>
+            <text class="dg-t" x="214" y="34">My devices</text>
+            <text class="dg-s" x="214" y="55">Remote access</text>
+          </g>
+          <g class="dg-node" data-g="access">
+            <rect class="dg-tile" x="261" y="96" width="28" height="28" rx="3"/>
+            <image href="assets/icons/tailscale.svg" x="265" y="100" width="20" height="20"/>
+            <text class="dg-s dg-s--hi" x="251" y="108" text-anchor="end">Tailscale</text>
+            <text class="dg-s" x="251" y="126" text-anchor="end">WireGuard</text>
+          </g>
+
+          <g class="dg-node dg-node--hub" data-g="access hardening monitoring testing">
+            <rect class="dg-box dg-box--hub" x="40" y="172" width="280" height="128" rx="3"/>
+            <rect class="dg-tile" x="56" y="188" width="40" height="40" rx="3"/>
+            <image href="assets/icons/raspberry-pi.svg" x="65" y="192" width="22" height="32"/>
+            <text class="dg-t" x="56" y="262">Raspberry Pi 5</text>
+            <text class="dg-s" x="56" y="284">Docker Compose host</text>
+          </g>
+
+          <g class="dg-node" data-g="hardening">
+            <rect class="dg-box" x="60" y="360" width="280" height="60" rx="3"/>
+            <rect class="dg-tile" x="72" y="374" width="32" height="32" rx="3"/>
+            <image href="assets/icons/docker.svg" x="75" y="380" width="26" height="19"/>
+            <text class="dg-t" x="116" y="388">12 services</text>
+            <text class="dg-s" x="116" y="408">Isolated networks</text>
+          </g>
+          <g class="dg-node" data-g="monitoring">
+            <rect class="dg-box" x="60" y="436" width="280" height="60" rx="3"/>
+            <rect class="dg-tile" x="72" y="450" width="32" height="32" rx="3"/>
+            <image href="assets/icons/grafana.svg" x="77" y="455" width="21" height="23"/>
+            <text class="dg-t" x="116" y="464">Metrics and logs</text>
+            <text class="dg-s" x="116" y="484">Prometheus, Loki, Grafana</text>
+          </g>
+          <g class="dg-node" data-g="monitoring">
+            <rect class="dg-box" x="60" y="512" width="280" height="60" rx="3"/>
+            <rect class="dg-tile" x="72" y="526" width="32" height="32" rx="3"/>
+            <image href="assets/icons/prometheus.svg" x="76" y="530" width="24" height="24"/>
+            <text class="dg-t" x="116" y="540">Alerts</text>
+            <text class="dg-s" x="116" y="560">Alertmanager</text>
+          </g>
+
+          <g class="dg-node" data-g="testing">
+            <rect class="dg-box" x="60" y="588" width="280" height="48" rx="3"/>
+            <rect class="dg-tile" x="72" y="596" width="32" height="32" rx="3"/>
+            <image href="assets/icons/kalilinux.svg" x="75" y="603" width="26" height="19"/>
+            <text class="dg-t" x="116" y="618">Kali Linux tests</text>
+          </g>
+
+          <circle class="pulse" data-path="t-dev" r="4.5"/>
+          <circle class="pulse" data-path="t-svc" r="4.5"/>
+          <circle class="pulse" data-path="t-mon" r="4.5"/>
+          <circle class="pulse" data-path="t-alr" r="4.5"/>
+          <circle class="pulse pulse--warn" data-path="t-net" data-blocked r="4.5"/>
+          <circle class="pulse pulse--test" data-path="t-test" r="4.5"/>
+        </svg>
+
+        <button class="pause lab__pause" id="labPause" type="button" aria-pressed="false" hidden>
+          <svg class="pause__ic" viewBox="0 0 24 24" aria-hidden="true"><path class="i-pause" d="M9 6v12M15 6v12"/><path class="i-play" d="M8 5.5v13l10.5-6.5z"/></svg><span class="pause__txt">Pause the diagram</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 · SKILLS -->
+  <section class="sec" id="skills" aria-labelledby="skills-h">
+    <div class="wrap">
+      <div class="sec__head sec__head--row">
+        <h2 id="skills-h">Technical skills</h2>
+        <p class="sec__sub">Tools and methods I have used at work or in my homelab, grouped by area.</p>
+      </div>
+      <div class="skills">
+        <section class="skill" aria-labelledby="sk1">
+          <h3 class="skill__h" id="sk1">Security operations</h3>
+          <ul class="chips"><li>Microsoft Sentinel (SIEM)</li><li>Log monitoring</li><li>Alert triage</li><li>Phishing simulation support</li></ul>
+        </section>
+        <section class="skill" aria-labelledby="sk2">
+          <h3 class="skill__h" id="sk2">Threat intelligence</h3>
+          <ul class="chips"><li>IOC analysis workflows</li><li>Threat reporting</li></ul>
+          <p class="skill__note">Seen first-hand during my internship.</p>
+        </section>
+        <section class="skill" aria-labelledby="sk3">
+          <h3 class="skill__h" id="sk3">Host and network security</h3>
+          <ul class="chips"><li><img class="chip__ic" loading="lazy" src="assets/icons/linux-tux.svg" alt="" width="16" height="16">Linux</li><li>UFW</li><li>CrowdSec</li><li>Fail2ban</li><li><img class="chip__ic" loading="lazy" src="assets/icons/tailscale.svg" alt="" width="16" height="16">Tailscale (WireGuard)</li><li>TLS</li><li><img class="chip__ic" loading="lazy" src="assets/icons/pihole.svg" alt="" width="16" height="16">Pi-hole</li><li>Unbound</li></ul>
+        </section>
+        <section class="skill" aria-labelledby="sk4">
+          <h3 class="skill__h" id="sk4">Monitoring and alerting</h3>
+          <ul class="chips"><li><img class="chip__ic" loading="lazy" src="assets/icons/prometheus.svg" alt="" width="16" height="16">Prometheus</li><li><img class="chip__ic" loading="lazy" src="assets/icons/grafana.svg" alt="" width="16" height="16">Grafana</li><li>Loki</li><li>Promtail</li><li>Alertmanager</li></ul>
+        </section>
+        <section class="skill" aria-labelledby="sk5">
+          <h3 class="skill__h" id="sk5">Security testing</h3>
+          <ul class="chips"><li>Nmap</li><li><img class="chip__ic" loading="lazy" src="assets/icons/wireshark.svg" alt="" width="16" height="16">Wireshark</li><li>Hydra</li><li><img class="chip__ic" loading="lazy" src="assets/icons/kalilinux.svg" alt="" width="16" height="16">Kali Linux</li></ul>
+          <p class="skill__note">Used against my own homelab.</p>
+        </section>
+        <section class="skill" aria-labelledby="sk6">
+          <h3 class="skill__h" id="sk6">Infrastructure</h3>
+          <ul class="chips"><li><img class="chip__ic" loading="lazy" src="assets/icons/docker.svg" alt="" width="16" height="16">Docker Compose</li><li>Isolated bridge networks</li><li>Least-privilege containers</li><li><img class="chip__ic" loading="lazy" src="assets/icons/git.svg" alt="" width="16" height="16">Git</li><li>Automated off-site backups</li></ul>
+        </section>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 · EDUCATION -->
+  <section class="sec" id="education" aria-labelledby="edu-h">
+    <div class="wrap grid">
+      <div class="sec__head col-l">
+        <h2 id="edu-h">Education and certifications</h2>
+        <div class="degree">
+          <p class="degree__when">2022 – expected 2027</p>
+          <h3 class="degree__title">B.Sc. Computer Science, cybersecurity path</h3>
+          <p class="degree__school">Athens University of Economics and Business</p>
+        </div>
+      </div>
+      <div class="col-r">
+        <h3 class="list-h">Certifications and training</h3>
+        <ul class="rows">
+          <li><span class="rows__org">OffSec</span><span class="rows__v">Threat Hunting Foundations badge</span></li>
+          <li><span class="rows__org">OffSec</span><span class="rows__v">Security Essentials (SEC100), learning path completed</span></li>
+          <li><span class="rows__org">OffSec</span><span class="rows__v">Foundational Threat Hunting (TH-200), learning path completed</span></li>
+          <li><span class="rows__org">Cadmus</span><span class="rows__v">Cyber Regulatory Compliance &amp; Policy Management</span></li>
+        </ul>
+        <div class="pair">
+          <div>
+            <h3 class="list-h">Languages</h3>
+            <ul class="rows rows--tight">
+              <li><span class="rows__org">English</span><span class="rows__v">Cambridge English C2 Proficiency (CPE)</span></li>
+              <li><span class="rows__org">Japanese</span><span class="rows__v">JLPT N5</span></li>
+            </ul>
           </div>
           <div>
-            <h1 class="hname rv d1">Dimitris Pournatzis</h1>
-            <div class="hrole rv d2">Cybersecurity · Information Science · Athens, GR</div>
-            <p class="hsum rv d3">Cybersecurity-focused Information Science student with hands-on experience in
-              <strong>network security</strong>, <strong>penetration-testing labs</strong> and
-              <strong>secure infrastructure deployment</strong> — seeking a position to apply practical
-              security knowledge and build professional-grade defensive &amp; offensive capabilities.</p>
-            <div class="hbtns rv d4">
-              <a class="pill" href="Dimitris-Pournatzis-CV.pdf" download><svg viewBox="0 0 24 24"><path d="M12 3v12m0 0 4-4m-4 4-4-4M4 21h16"/></svg>Download CV</a>
-              <a class="pill ghost" href="mailto:dvpournatzis@proton.me"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>Email</a>
-              <a class="pill ghost" href="https://github.com/DimPourn" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24"><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6 0 0 0-1.3-3.2 4.2 4.2 0 0 0-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3 0 0 0-6.2 0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2 0 0 0-.1 3.2A4.6 4.6 0 0 0 4 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></svg>GitHub</a>
-            </div>
-          </div>
-        </div>
-        <div class="statrow">
-          <div class="stat rv d5"><b>2</b><span>security labs</span></div>
-          <div class="stat rv d6"><b>B.Sc.</b><span>info science</span></div>
-          <div class="stat rv d7"><b>3</b><span>languages</span></div>
-          <div class="stat rv d8"><b>ATH</b><span>gr · remote ok</span></div>
-        </div>
-      </div>
-    </section>
-
-    <!-- 2 · EXPERIENCE -->
-    <section class="page" id="experience" data-name="Experience" aria-label="Experience, 2 of 6">
-      <div class="pcol">
-        <div class="ahead rv">
-          <span class="aic g-blu" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></span>
-          <div><h2>Experience</h2><div class="sub">work history · 2 roles</div></div>
-        </div>
-        <div class="grid2">
-          <article class="card rv d2">
-            <div class="cmeta"><span class="when">JUL 2024 — AUG 2024</span><span class="badge neu">HANDS-ON</span></div>
-            <h3>Prop Construction Assistant</h3>
-            <div class="org">House Of David</div>
-            <ul>
-              <li>Fabricated and assembled movie stage props in a small, fast-paced team.</li>
-              <li>Applied hands-on problem solving to troubleshoot build issues as they occurred.</li>
-              <li>Followed safety procedures and maintained an organized workspace.</li>
+            <h3 class="list-h">Activities</h3>
+            <ul class="rows rows--tight">
+              <li><span class="rows__org">ISC2</span><span class="rows__v">Student Member</span></li>
+              <li><span class="rows__org">Infocom</span><span class="rows__v">Attended the 16th Infocom Security Conference</span></li>
             </ul>
-            <div class="tags"><span class="tag">teamwork</span><span class="tag">problem-solving</span><span class="tag">fast pace</span></div>
-          </article>
-          <article class="card rv d4">
-            <div class="cmeta"><span class="when">JUN 2023 — SEP 2023</span><span class="badge neu">INTERNSHIP</span></div>
-            <h3>IT Intern</h3>
-            <div class="org">Zippo Hellas — Dritsas Group</div>
-            <ul>
-              <li>Assisted in the maintenance of the company's e-shop.</li>
-              <li>Troubleshot technical problems across the office environment.</li>
-              <li>Supported inventory optimization by maintaining stock &amp; pricing sheets.</li>
-            </ul>
-            <div class="tags"><span class="tag">e-commerce</span><span class="tag">IT support</span><span class="tag">operations</span></div>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <!-- 3 · PROJECTS -->
-    <section class="page" id="projects" data-name="Projects" aria-label="Projects, 3 of 6">
-      <div class="pcol">
-        <div class="ahead rv">
-          <span class="aic g-cyn" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 3h4m-2 0v5.5l5.5 9.2a2 2 0 0 1-1.7 3H8.2a2 2 0 0 1-1.7-3L12 8.5"/><path d="M8.5 14.5h7"/></svg></span>
-          <div><h2>Projects</h2><div class="sub">security labs · defense &amp; offense</div></div>
-        </div>
-        <div class="grid2">
-          <article class="card rv d2">
-            <div class="cmeta"><span class="when">09/2025 — ACTIVE</span><span class="badge def">DEFENSE</span></div>
-            <h3>HomeLab — hardened self-hosted infrastructure</h3>
-            <div class="org">Raspberry Pi 5 · Docker · Tailscale</div>
-            <ul>
-              <li>Built self-hosted infrastructure with <b>Docker</b> and <b>Tailscale</b> for private cloud services, with <b>Unbound</b> as a recursive DNS resolver.</li>
-              <li>Deployed <b>Vaultwarden</b> behind HTTPS and hardened it — probing my own setup with <b>Nmap</b> and deploying <b>fail2ban</b>.</li>
-              <li>Analyzed traffic and DNS behaviour with <b>Wireshark</b> and Pi-hole logs.</li>
-              <li>Simulated an SSH brute-force attack with <b>Hydra</b> from a Kali VM against my own host.</li>
-            </ul>
-            <div class="tags"><span class="tag">Docker</span><span class="tag">Tailscale</span><span class="tag">Nmap</span><span class="tag">fail2ban</span><span class="tag">Wireshark</span></div>
-            <div class="openrow"><span class="org m0">full write-up on sh_lab</span>
-              <a class="pill" href="https://dimpourn.github.io/sh_lab/" target="_blank" rel="noopener noreferrer">OPEN<svg viewBox="0 0 24 24"><path d="M7 17 17 7m0 0H9m8 0v8"/></svg></a></div>
-          </article>
-          <article class="card rv d4">
-            <div class="cmeta"><span class="when">11/2025</span><span class="badge off">OFFENSE</span></div>
-            <h3>Exploitation Lab — virtualized attack range</h3>
-            <div class="org">VirtualBox · Kali · Metasploitable 2</div>
-            <ul>
-              <li>Deployed a virtualized sandbox environment with <b>VirtualBox</b> as hypervisor, running <b>Kali</b> and <b>Metasploitable 2</b>.</li>
-              <li>Enumerated open ports and potential entry points with <b>Nmap</b>.</li>
-              <li>Exploited known vulnerabilities with the <b>Metasploit Framework</b> — e.g. the vsftpd 2.3.4 backdoor — to gain root-level access in the sandbox.</li>
-            </ul>
-            <div class="tags"><span class="tag">Kali</span><span class="tag">Metasploit</span><span class="tag">Nmap</span><span class="tag">VirtualBox</span></div>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <!-- 4 · EDUCATION -->
-    <section class="page" id="education" data-name="Education" aria-label="Education, 4 of 6">
-      <div class="pcol">
-        <div class="ahead rv">
-          <span class="aic g-amb" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m12 4 10 5-10 5L2 9z"/><path d="M6 11.5V16c0 1.5 2.7 3 6 3s6-1.5 6-3v-4.5M22 9v5"/></svg></span>
-          <div><h2>Education</h2><div class="sub">foundations · cybersecurity path</div></div>
-        </div>
-        <div class="grid2">
-          <article class="card rv d2">
-            <div class="cmeta"><span class="when">2022 — PRESENT</span><span class="badge neu">B.SC.</span></div>
-            <h3>Information Science</h3>
-            <div class="org">Athens University of Economics and Business</div>
-            <ul>
-              <li><b>Cybersecurity path</b> — coursework and labs focused on security.</li>
-              <li>Applying theory directly in self-built lab environments — see projects.</li>
-            </ul>
-            <div class="tags"><span class="tag">AUEB</span><span class="tag">cybersecurity path</span></div>
-          </article>
-          <article class="card rv d4">
-            <div class="cmeta"><span class="when">CONTINUOUS</span><span class="badge neu">SELF-DIRECTED</span></div>
-            <h3>Practice areas</h3>
-            <div class="org">where the coursework gets applied</div>
-            <ul>
-              <li>Network reconnaissance &amp; service enumeration.</li>
-              <li>Traffic &amp; DNS analysis with packet-level tooling.</li>
-              <li>Host hardening — TLS, fail2ban, least-privilege services.</li>
-              <li>Exploit workflows in isolated, legal sandbox ranges.</li>
-            </ul>
-            <div class="tags"><span class="tag">recon</span><span class="tag">analysis</span><span class="tag">hardening</span></div>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <!-- 5 · SKILLS -->
-    <section class="page" id="skills" data-name="Skills" aria-label="Skills, 5 of 6">
-      <div class="pcol">
-        <div class="ahead rv">
-          <span class="aic g-grn" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 20v-7m0-4V4m8 16v-9m0-4V4m8 16v-5m0-4V4M2 13h4m6-6h4m4 11h4"/></svg></span>
-          <div><h2>Skills</h2><div class="sub">from packets to python</div></div>
-        </div>
-        <div class="grid2">
-          <div class="card rv d2">
-            <p class="subhead">Core proficiency</p>
-            <div class="meter"><div class="mrow"><span>Networking — DNS · DHCP · port forwarding</span><b>STRONG</b></div><div class="mbar"><i class="w88"></i></div></div>
-            <div class="meter"><div class="mrow"><span>Wireshark / traffic analysis</span><b>STRONG</b></div><div class="mbar"><i class="w84"></i></div></div>
-            <div class="meter"><div class="mrow"><span>Docker &amp; self-hosting</span><b>STRONG</b></div><div class="mbar"><i class="w86"></i></div></div>
-            <div class="meter"><div class="mrow"><span>Python</span><b>SOLID</b></div><div class="mbar"><i class="w74"></i></div></div>
-            <div class="meter"><div class="mrow"><span>Bash</span><b>SOLID</b></div><div class="mbar"><i class="w72"></i></div></div>
-            <div class="meter mb0"><div class="mrow"><span>Java</span><b>SOLID</b></div><div class="mbar"><i class="w70"></i></div></div>
-          </div>
-          <div class="card rv d4">
-            <p class="subhead">Toolbox</p>
-            <div class="chiprow">
-              <span class="chip">Nmap</span><span class="chip">Metasploit</span><span class="chip">Hydra</span>
-              <span class="chip">fail2ban</span><span class="chip">Pi-hole</span><span class="chip">Tailscale / WireGuard</span>
-              <span class="chip">Git · GitHub · GitLab</span><span class="chip">VirtualBox</span><span class="chip">Kali Linux</span>
-            </div>
-            <p class="subhead mt15">Languages</p>
-            <div class="langs">
-              <div class="lang">Greek<span class="l-dots">●●●●●</span></div>
-              <div class="lang">English<span class="l-dots">●●●●●</span></div>
-              <div class="lang">Japanese<span class="l-dots">●●●<span class="off">●●</span></span></div>
-            </div>
           </div>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- 6 · CONTACT -->
-    <section class="page" id="contact" data-name="Contact" aria-label="Contact, 6 of 6">
-      <div class="cwrap">
-        <h2 class="cbig rv">Let's build something<br><span class="grad">secure</span> together.</h2>
-        <p class="rv d2">Open to internships and junior roles in security, infrastructure or IT —
-          based in Athens, Greece, available remote or on-site.</p>
-        <div class="cbtns rv d4">
-          <a class="pill" href="mailto:dvpournatzis@proton.me"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>dvpournatzis@proton.me</a>
-          <a class="pill ghost" href="Dimitris-Pournatzis-CV.pdf" download><svg viewBox="0 0 24 24"><path d="M12 3v12m0 0 4-4m-4 4-4-4M4 21h16"/></svg>Download CV</a>
-          <a class="pill ghost" href="https://github.com/DimPourn" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24"><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6 0 0 0-1.3-3.2 4.2 4.2 0 0 0-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3 0 0 0-6.2 0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2 0 0 0-.1 3.2A4.6 4.6 0 0 0 4 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></svg>github.com/DimPourn</a>
-        </div>
-        <div class="cfoot rv d5">
-          off the keyboard: basketball · snowboarding · chess · F1 &amp; MotoGP<br>
-          © Dimitris Pournatzis · <a href="https://dimpourn.github.io/sh_lab/" target="_blank" rel="noopener noreferrer">homelab write-up</a>
-        </div>
+  <!-- 6 · CONTACT (dark close) -->
+  <section class="sec sec--dark close" id="contact" aria-labelledby="contact-h" data-theme="dark">
+    <div class="wrap close__in">
+      <h2 id="contact-h">Contact and CV</h2>
+      <p class="sec__sub">I'm in Athens, Greece, looking for a junior SOC Analyst, Blue Team or Threat Intelligence role. Email is the best way to reach me.</p>
+      <div class="close__mail">
+        <a class="close__addr" href="mailto:dvpournatzis@proton.me">dvpournatzis@proton.me</a>
+        <button class="copy" id="copyMail" type="button" data-copy="dvpournatzis@proton.me">
+          <svg class="copy__ic" viewBox="0 0 24 24" aria-hidden="true"><rect class="i-copy" x="8" y="8" width="12" height="12" rx="1.5"/><path class="i-copy" d="M16 8V5.5A1.5 1.5 0 0 0 14.5 4h-9A1.5 1.5 0 0 0 4 5.5v9A1.5 1.5 0 0 0 5.5 16H8"/><path class="i-done" d="m5 12.5 4.5 4.5L19 7.5"/></svg>
+          <span class="copy__txt" aria-live="polite">Copy the address</span>
+        </button>
       </div>
-    </section>
+      <div class="close__actions">
+        <a class="btn btn--inv" href="Dimitris-Pournatzis-CV.pdf" download>
+          <svg class="btn__ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11m0 0 4.5-4.5M12 15l-4.5-4.5M5 20h14"/></svg>Download the CV</a>
+      </div>
+      <ul class="close__links">
+        <li><a class="tile" href="https://github.com/DimPourn" target="_blank" rel="noopener noreferrer"><img class="tile__ic tile__ic--ink" loading="lazy" src="assets/icons/github.svg" alt="" width="24" height="24"><span>GitHub</span></a></li>
+        <li><a class="tile" href="https://www.linkedin.com/in/dimpournatzis/" target="_blank" rel="noopener noreferrer"><img class="tile__ic" loading="lazy" src="assets/icons/linkedin.svg" alt="" width="24" height="24"><span>LinkedIn</span></a></li>
+        <li><a class="tile" href="https://dimpourn.github.io/sh_lab/" target="_blank" rel="noopener noreferrer"><img class="tile__ic" loading="lazy" src="assets/icons/raspberry-pi.svg" alt="" width="19" height="24"><span>HomeLab site</span></a></li>
+        <li><a class="tile" href="https://dimpourn.github.io/"><span class="tile__mark" aria-hidden="true">DP</span><span>All my links</span></a></li>
+      </ul>
+    </div>
+    <footer class="foot">
+      <div class="wrap foot__in">
+        <p>© 2026 Dimitris Pournatzis · <a class="link" href=".well-known/security.txt">security.txt</a></p>
+        <p class="foot__credits">Set in Chivo. Motion by GSAP, Vanta and three.js, served from this site. Product names and logos are trademarks of their owners.</p>
+      </div>
+    </footer>
+  </section>
 
-  </main>
-
-  <button class="chev prev" id="chevPrev" aria-label="Previous section"><svg viewBox="0 0 24 24"><path d="m14 6-6 6 6 6"/></svg></button>
-  <button class="chev next" id="chevNext" aria-label="Next section"><svg viewBox="0 0 24 24"><path d="m10 6 6 6-6 6"/></svg></button>
-
-  <nav class="dock" id="dock" aria-label="CV sections">
-    <button data-i="0"><span class="tip">Profile</span><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.5"/><path d="M5 20a7 7 0 0 1 14 0"/></svg></button>
-    <button data-i="1"><span class="tip">Experience</span><svg viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button>
-    <button data-i="2"><span class="tip">Projects</span><svg viewBox="0 0 24 24"><path d="M10 3h4m-2 0v5.5l5.5 9.2a2 2 0 0 1-1.7 3H8.2a2 2 0 0 1-1.7-3L12 8.5"/></svg></button>
-    <button data-i="3"><span class="tip">Education</span><svg viewBox="0 0 24 24"><path d="m12 4 10 5-10 5L2 9z"/><path d="M6 11.5V16c0 1.5 2.7 3 6 3s6-1.5 6-3v-4.5"/></svg></button>
-    <button data-i="4"><span class="tip">Skills</span><svg viewBox="0 0 24 24"><path d="M4 20v-7m0-4V4m8 16v-9m0-4V4m8 16v-5m0-4V4M2 13h4m6-6h4m4 11h4"/></svg></button>
-    <button data-i="5"><span class="tip">Contact</span><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></button>
-  </nav>
-  <div class="homebar" aria-hidden="true"></div>
-</div>
-
+</main>
 </body>
 </html>
