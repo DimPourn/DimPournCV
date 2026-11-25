@@ -5,6 +5,8 @@
   python tools/site.py og       render the 1200x630 share card to docs/assets/img/og.jpg
   python tools/site.py check    load the page at several sizes: console errors, CSP and
                                 Trusted Types violations, overflow, screenshots in shots/
+  python tools/site.py check-reduced
+                                the same check with prefers-reduced-motion: reduce
 
 Needs Playwright (Chromium) and ImageMagick. Serves docs/ on 127.0.0.1 only.
 """

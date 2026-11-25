@@ -1,11 +1,22 @@
 # Dimitris Pournatzis: CV
 
-**Live CV site: [dimpourn.github.io/DimPournCV](https://dimpourn.github.io/DimPournCV/)** ·
-**PDF: [Dimitris-Pournatzis-CV.pdf](docs/Dimitris-Pournatzis-CV.pdf)**
+<p align="center">
+  <a href="https://dimpourn.github.io/DimPournCV/">
+    <img src="docs/assets/img/og.jpg" width="820" alt="The CV site's opening screen: the name Dimitris Pournatzis, the line &quot;Cybersecurity student looking for a junior SOC, Blue Team or threat intelligence role&quot;, and a blue wireframe globe">
+  </a>
+</p>
+
+<p align="center">
+  <a href="https://dimpourn.github.io/DimPournCV/"><b>Live site</b></a> ·
+  <a href="docs/Dimitris-Pournatzis-CV.pdf"><b>PDF CV</b></a> ·
+  <a href="https://dimpourn.github.io/sh_lab/">Homelab</a> ·
+  <a href="https://www.linkedin.com/in/dimpournatzis/">LinkedIn</a>
+</p>
 
 Computer Science student (cybersecurity path) at AUEB, Resilience and Intelligence Intern at
-Alpha Bank in 2026, looking for a junior SOC, Blue Team or threat intelligence role. See also my
-[homelab site](https://dimpourn.github.io/sh_lab/).
+Alpha Bank in 2026, looking for a junior SOC, Blue Team or threat intelligence role. This
+repository is the source of my CV site: a static page hardened like a production web app, with
+no third-party requests.
 
 ## The site
 
@@ -18,25 +29,68 @@ One page in plain HTML, CSS and JavaScript, served by GitHub Pages from `docs/`:
   in the list highlights its part of the diagram;
 - everything readable without JavaScript and in print.
 
+## How the page loads
+
+Every script comes from this site and passes the Content Security Policy. The two heavy WebGL
+libraries load only when they will be used, and only through one Trusted Types policy.
+
+```mermaid
+flowchart TD
+  A["index.html<br/>CSP: script-src 'self', Trusted Types required"] --> B["boot.js<br/>marks the page as scripted"]
+  A --> C["GSAP, ScrollTrigger, DrawSVG<br/>deferred, SRI sha384"]
+  C --> D["app.js<br/>hero entrance, HomeLab diagram"]
+  D --> E{"Desktop pointer, motion allowed<br/>and WebGL available?"}
+  E -- yes --> F["Trusted Types policy cv-loader<br/>accepts exactly two same-origin URLs"]
+  F --> G["three.js r134, then Vanta GLOBE<br/>SRI sha384 on each"]
+  E -- no --> H["Keep the still image<br/>globe.webp, globe-sm.webp"]
+```
+
 ## Security posture
 
-- **Strict Content Security Policy:** `default-src 'none'`, `script-src 'self'`, `style-src 'self'`,
-  no inline scripts or styles.
-- **Trusted Types enforced** (`require-trusted-types-for 'script'`). The only policy allowed,
-  `cv-loader`, accepts exactly two same-origin script URLs (three.js and Vanta), and the code has
-  no HTML injection sinks.
-- **Subresource Integrity** (sha384) on every vendor script, including the two loaded on demand.
-- **Zero third-party requests:** fonts, libraries and icons are self-hosted. No CDNs, trackers or
-  analytics.
-- **Pinned, verified dependencies:** GSAP 3.13.0, three.js r134 and Vanta 0.5.24, checked against
-  their npm tarball hashes ([credits](docs/assets/CREDITS.md)).
-- `Referrer-Policy: strict-origin-when-cross-origin`, `noopener noreferrer` on external links,
-  `upgrade-insecure-requests`, and an
-  [RFC 9116 `security.txt`](https://dimpourn.github.io/DimPournCV/.well-known/security.txt).
+| Control | Implementation | How it is checked |
+| --- | --- | --- |
+| Content Security Policy | `default-src 'none'`, `script-src 'self'`, `style-src 'self'`, `base-uri 'none'`, `form-action 'none'`; no inline scripts, styles or event handlers | `tools/site.py check` reports CSP violations at ten screen sizes |
+| Trusted Types | `require-trusted-types-for 'script'`; the only policy, `cv-loader`, accepts the three.js and Vanta URLs and nothing else; no HTML injection sinks in the code | Same check reports Trusted Types violations |
+| Subresource Integrity | sha384 on all five vendor scripts, including the two loaded on demand | Each hash matches `openssl dgst -sha384 -binary <file> \| base64` |
+| No third-party requests | Fonts, libraries and icons are self-hosted; no CDNs, trackers or analytics | `default-src 'none'` blocks every other origin |
+| Pinned dependencies | GSAP 3.13.0, three.js r134, Vanta 0.5.24 | Checked against their npm tarball hashes ([credits](docs/assets/CREDITS.md)) |
+| Links and referrer | `strict-origin-when-cross-origin`, `noopener noreferrer` on external links, `upgrade-insecure-requests` | Static review |
+| Vulnerability contact | [`security.txt`](https://dimpourn.github.io/.well-known/security.txt) at the domain root, as RFC 9116 requires | n/a |
 
 *(`frame-ancestors` and HSTS need HTTP headers, which GitHub Pages cannot set.)*
 
+## Preview locally
+
+```sh
+python3 -m http.server --bind 127.0.0.1 -d docs 8000
+```
+
+Then open <http://127.0.0.1:8000/>. Binding to `127.0.0.1` keeps the server off your local network.
+
 ## Local tools
 
-`tools/site.py` (Playwright) renders the hero still and the link preview, and checks the page at
-ten screen sizes for console errors, CSP violations and overflow.
+`tools/site.py` renders the images and checks the page in a real browser. It needs Playwright for
+Python with Chromium, and ImageMagick 7 (`magick`). It serves `docs/` on `127.0.0.1` only.
+
+| Command | What it does |
+| --- | --- |
+| `python3 tools/site.py poster` | Renders the globe and saves the stills `globe.webp` and `globe-sm.webp` |
+| `python3 tools/site.py og` | Renders the 1200×630 link preview `og.jpg` |
+| `python3 tools/site.py check [WxH ...]` | Loads the page at ten screen sizes (or only the ones given) and reports console errors, CSP and Trusted Types violations and overflow; screenshots go to `shots/` |
+| `python3 tools/site.py check-reduced [WxH ...]` | The same check with `prefers-reduced-motion: reduce` |
+
+## Repository layout
+
+| Path | Contents |
+| --- | --- |
+| `docs/` | The published site; GitHub Pages serves this folder |
+| `docs/assets/` | CSS, JavaScript, self-hosted fonts, icons and images |
+| `docs/Dimitris-Pournatzis-CV.pdf` | The PDF version of the CV |
+| `tools/site.py` | Local render and check script; not published |
+
+## License
+
+© Dimitris Pournatzis. My CV content, design and code are licensed under
+[CC BY-NC-ND 4.0](LICENSE.md). Third-party files keep their own licences: GSAP (standard no-charge
+licence), three.js and Vanta (MIT), the Chivo fonts (SIL OFL 1.1) and the product logos (CC0;
+the marks belong to their owners). See [CREDITS.md](docs/assets/CREDITS.md).
