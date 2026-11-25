@@ -26,5 +26,12 @@ name tools I have worked with.
 
 ## Images (`img/`)
 
-`globe.webp`, `globe-sm.webp` (the hero's still) and `og.jpg` (the link preview) are rendered from
-this page with `tools/site.py`.
+`globe.webp`, `globe-sm.webp` (the plain view's hero still), `wall-desk.webp`, `wall-phone.webp`
+(the deck's wallpaper still) and `og.jpg` (the link preview) are rendered from this site's own
+Vanta and page with `tools/site.py`.
+
+## Arch Linux
+
+The Arch Linux logo (`icons/archlinux.svg`) and name are trademarks of the Arch Linux project, used
+here only to say what the deck runs. Hyprland, foot, fastfetch and zsh are named for the same
+reason; nothing of theirs is copied.

@@ -5,10 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Security: strict CSP (no inline script or style, no third-party origins) and Trusted Types.
      Only the policy "cv-loader" may exist, and it only accepts the two vendor scripts loaded on demand (three.js, Vanta).
+     Every bit of terminal output is built with textContent: no HTML sinks anywhere.
      frame-ancestors and HSTS need HTTP headers, which GitHub Pages cannot set. -->
 <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests; require-trusted-types-for 'script'; trusted-types cv-loader">
 <meta name="referrer" content="strict-origin-when-cross-origin">
-<meta name="color-scheme" content="light">
+<meta name="color-scheme" content="light dark">
 <meta name="theme-color" content="#eef0f3">
 <meta name="page-type" content="service">
 <meta name="site-kind" content="software">
@@ -22,21 +23,23 @@
 <meta property="og:image" content="https://dimpourn.github.io/DimPournCV/assets/img/og.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Dimitris Pournatzis, cybersecurity student, next to a wireframe globe">
+<meta property="og:image:alt" content="Dimitris Pournatzis's CV running on an Arch Linux desktop inside a cyberdeck: the README, a terminal showing fastfetch, and six keys for the sections">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='6' fill='%230b0c0e'/%3E%3Crect x='44' y='44' width='10' height='10' fill='%231f2de6'/%3E%3Ctext x='10' y='41' font-family='Arial,sans-serif' font-size='26' font-weight='700' fill='%23eef0f3'%3EDP%3C/text%3E%3C/svg%3E">
 <link rel="preload" href="assets/fonts/chivo-latin-wght.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/chivo-mono-latin-wght.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/css/site.css?v=2">
-<script src="assets/js/boot.js?v=2"></script>
+<link rel="stylesheet" href="assets/css/site.css?v=3">
+<link rel="stylesheet" href="assets/css/deck.css?v=3">
+<script src="assets/js/boot.js?v=3"></script>
 <script src="assets/js/vendor/gsap.min.js" integrity="sha384-HOvlOYPIs/zjoIkWUGXkVmXsjr8GuZLV+Q+rcPwmJOVZVpvTSXQChiN4t9Euv9Vc" defer></script>
 <script src="assets/js/vendor/ScrollTrigger.min.js" integrity="sha384-P8VzCVnT9NBUkMrpcIZrJbA7EBjJvh/fJS6PmP+4nLIM284DtsImIv8D0fFjIkeh" defer></script>
 <script src="assets/js/vendor/DrawSVGPlugin.min.js" integrity="sha384-hk4mr+NXgJSfCJFF+LKzt26e6ZekZmmXAesF9r58nbaoAqB/VAlvY4T8k2plkXf+" defer></script>
-<script src="assets/js/app.js?v=2" defer></script>
+<script src="assets/js/app.js?v=3" defer></script>
+<script src="assets/js/deck.js?v=3" defer></script>
 </head>
 <body>
-<!-- Deal (tasteskill 2.5): palette cool-grey-cobalt, type chivo (Chivo + Chivo Mono), radius sharp.
-     Effect: Vanta GLOBE behind the hero (poster first, live on desktop only). Moment: the HomeLab diagram assembles once. -->
+<!-- Deal (tasteskill 2.5): palette cool-grey-cobalt (plain view) with Arch blue in the deck, type Chivo + Chivo Mono, radius sharp.
+     Deck mode: a cyberdeck running Arch Linux (Hyprland). Plain mode: the same sections as a normal page (no JavaScript, Plain view, print). -->
 <a class="skip" href="#main">Skip to content</a>
 
 <header class="nav" id="nav">
@@ -52,6 +55,7 @@
       <a href="#education">Education</a>
       <a href="#contact">Contact</a>
     </nav>
+    <button class="btn btn--ghost btn--sm nav__deck" type="button" data-mode="deck" hidden>Open the deck</button>
     <a class="btn btn--primary btn--sm nav__cta" href="Dimitris-Pournatzis-CV.pdf" download>Download the CV</a>
     <button class="nav__toggle" id="menuToggle" type="button" aria-expanded="false" aria-controls="menu" aria-label="Open the menu">
       <span aria-hidden="true"></span><span aria-hidden="true"></span>
@@ -66,20 +70,70 @@
     <a href="#skills">Skills</a>
     <a href="#education">Education</a>
     <a href="#contact">Contact</a>
+    <button class="btn btn--ghost menu__deck" type="button" data-mode="deck" hidden>Open the deck</button>
     <a class="btn btn--primary menu__cta" href="Dimitris-Pournatzis-CV.pdf" download>Download the CV</a>
   </nav>
 </div>
 
-<main id="main">
+<div class="scene" id="scene" data-state="closed">
+  <p class="sr-only" id="announce" aria-live="polite"></p>
+
+  <div class="intro" id="intro">
+    <p class="intro__name">Dimitris Pournatzis</p>
+    <p class="intro__line">Cybersecurity student in Athens · junior SOC, Blue Team and threat intelligence</p>
+    <div class="intro__actions">
+      <button class="btn btn--arch" id="openDeck" type="button">Open the deck</button>
+      <a class="btn btn--ghost-inv" href="Dimitris-Pournatzis-CV.pdf" download>Download the CV</a>
+    </div>
+    <p class="intro__hint"><span class="intro__key">or press Enter</span> · <button class="intro__plain" type="button" data-mode="plain">Plain view</button></p>
+  </div>
+
+  <div class="deck" id="deck">
+    <div class="deck__lid">
+      <div class="screen" id="screen">
+        <div class="os" id="os">
+          <div class="wall" aria-hidden="true">
+            <picture>
+              <source media="(max-width: 699.98px)" srcset="assets/img/wall-phone.webp?v=3" width="585" height="1140">
+              <img class="wall__img" src="assets/img/wall-desk.webp?v=3" alt="" width="2082" height="1089" decoding="async" loading="lazy">
+            </picture>
+            <div class="wall__gl" id="wallGL"></div>
+          </div>
+
+          <header class="bar" id="bar">
+            <div class="bar__l">
+              <button class="bar__arch" id="launchBtn" type="button" aria-label="Open the app launcher" aria-expanded="false" aria-controls="launcher" title="Arch Linux (btw)"><img src="assets/icons/archlinux.svg" alt="" width="16" height="16"></button>
+              <nav class="bar__ws" aria-label="Workspaces">
+          <button type="button" data-ws="1" aria-pressed="false" aria-label="1: README"><span class="ws__n">1</span><span class="ws__l">readme</span></button>
+          <button type="button" data-ws="2" aria-pressed="false" aria-label="2: Experience"><span class="ws__n">2</span><span class="ws__l">experience</span></button>
+          <button type="button" data-ws="3" aria-pressed="false" aria-label="3: HomeLab"><span class="ws__n">3</span><span class="ws__l">homelab</span></button>
+          <button type="button" data-ws="4" aria-pressed="false" aria-label="4: Skills"><span class="ws__n">4</span><span class="ws__l">skills</span></button>
+          <button type="button" data-ws="5" aria-pressed="false" aria-label="5: Education"><span class="ws__n">5</span><span class="ws__l">education</span></button>
+          <button type="button" data-ws="6" aria-pressed="false" aria-label="6: Contact"><span class="ws__n">6</span><span class="ws__l">contact</span></button>
+              </nav>
+            </div>
+            <p class="bar__title" id="barTitle" aria-hidden="true">~/cv/README.md</p>
+            <div class="bar__r">
+              <button class="bar__btn bar__term" id="termBtn" type="button" aria-pressed="false" aria-label="Terminal"><span aria-hidden="true">&gt;_</span></button>
+              <span class="bar__mod bar__ts" title="Tailscale: connected"><span class="dot" aria-hidden="true"></span>ts</span>
+              <button class="bar__btn bar__wall" id="wallBtn" type="button" aria-pressed="true" title="Wallpaper motion" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-6.5 10-6.5S22 12 22 12s-3.6 6.5-10 6.5S2 12 2 12z"/><circle cx="12" cy="12" r="2.8"/></svg><span class="sr-only">Wallpaper motion</span></button>
+              <span class="bar__mod bar__clock" id="barClock">--:--</span>
+              <button class="bar__btn bar__plain" type="button" data-mode="plain">Plain view</button>
+              <button class="bar__btn bar__lid" id="lidBtn" type="button" aria-label="Close the lid" title="Close the lid"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v8M6.3 6.3a8 8 0 1 0 11.4 0"/></svg></button>
+            </div>
+          </header>
+
+          <div class="wm" id="wm">
+            <div class="win win--app is-focused" id="winApp">
+<main id="main" class="win__body" tabindex="-1">
 
   <!-- 1 · HERO -->
-  <section class="hero" id="top" aria-labelledby="hero-h" data-enter>
+  <section class="hero app" id="top" aria-labelledby="hero-h" data-enter data-ws="1" data-slug="readme" data-title="README.md">
     <div class="hero__art" aria-hidden="true">
       <picture>
         <source media="(max-width: 899.98px)" srcset="assets/img/globe-sm.webp?v=2" width="900" height="900">
-        <img class="hero__poster" src="assets/img/globe.webp?v=2" alt="" width="1800" height="1125" decoding="async">
+        <img class="hero__poster" src="assets/img/globe.webp?v=2" alt="" width="1800" height="1125" decoding="async" loading="lazy">
       </picture>
-      <div class="hero__globe" id="globe"></div>
     </div>
     <div class="wrap hero__in">
       <p class="hero__notice enter-fade">
@@ -94,14 +148,12 @@
           <svg class="btn__ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11m0 0 4.5-4.5M12 15l-4.5-4.5M5 20h14"/></svg>Download the CV</a>
         <a class="btn btn--ghost" href="mailto:dvpournatzis@proton.me">Email me</a>
       </div>
+      <p class="hero__deckhint">Use the keys under the screen, the bar at the top, or 1 to 6 on your keyboard. The terminal takes commands too: try <kbd>help</kbd>.</p>
     </div>
-    <button class="pause hero__pause" id="globePause" type="button" aria-pressed="false" hidden>
-      <svg class="pause__ic" viewBox="0 0 24 24" aria-hidden="true"><path class="i-pause" d="M9 6v12M15 6v12"/><path class="i-play" d="M8 5.5v13l10.5-6.5z"/></svg><span class="pause__txt">Pause the globe</span>
-    </button>
   </section>
 
   <!-- 2 · EXPERIENCE -->
-  <section class="sec" id="experience" aria-labelledby="exp-h">
+  <section class="sec app" id="experience" data-ws="2" data-slug="experience" data-title="experience/" aria-labelledby="exp-h">
     <div class="wrap">
       <div class="sec__head sec__head--row">
         <h2 id="exp-h">Work experience</h2>
@@ -141,7 +193,7 @@
   </section>
 
   <!-- 3 · HOMELAB (dark band, the page's moment) -->
-  <section class="sec sec--dark" id="homelab" aria-labelledby="lab-h" data-theme="dark">
+  <section class="sec sec--dark app" id="homelab" data-ws="3" data-slug="homelab" data-title="homelab/" aria-labelledby="lab-h" data-theme="dark">
     <div class="wrap grid lab" id="lab">
       <div class="col-l lab__text">
         <h2 id="lab-h">A private security homelab</h2>
@@ -327,7 +379,7 @@
   </section>
 
   <!-- 4 · SKILLS -->
-  <section class="sec" id="skills" aria-labelledby="skills-h">
+  <section class="sec app" id="skills" data-ws="4" data-slug="skills" data-title="skills/" aria-labelledby="skills-h">
     <div class="wrap">
       <div class="sec__head sec__head--row">
         <h2 id="skills-h">Technical skills</h2>
@@ -365,7 +417,7 @@
   </section>
 
   <!-- 5 · EDUCATION -->
-  <section class="sec" id="education" aria-labelledby="edu-h">
+  <section class="sec app" id="education" data-ws="5" data-slug="education" data-title="education/" aria-labelledby="edu-h">
     <div class="wrap grid">
       <div class="sec__head col-l">
         <h2 id="edu-h">Education and certifications</h2>
@@ -404,7 +456,7 @@
   </section>
 
   <!-- 6 · CONTACT (dark close) -->
-  <section class="sec sec--dark close" id="contact" aria-labelledby="contact-h" data-theme="dark">
+  <section class="sec sec--dark close app" id="contact" data-ws="6" data-slug="contact" data-title="contact/" aria-labelledby="contact-h" data-theme="dark">
     <div class="wrap close__in">
       <h2 id="contact-h">Contact and CV</h2>
       <p class="sec__sub">I'm in Athens, Greece, looking for a junior SOC Analyst, Blue Team or Threat Intelligence role. Email is the best way to reach me.</p>
@@ -435,5 +487,86 @@
   </section>
 
 </main>
+            </div>
+
+            <div class="win win--term" id="winTerm">
+              <div class="term" id="term">
+                <div class="term__scroll" id="termScroll">
+                  <div class="term__out" id="termOut" role="log" aria-live="polite" aria-label="Terminal output"></div>
+                  <form class="term__line" id="termForm" autocomplete="off">
+                    <span class="term__ps1" aria-hidden="true"><span class="t-user">dimitris@dp-deck</span>:<span class="t-path" id="termPath">~</span>$</span>
+                    <input class="term__in" id="termIn" type="text" spellcheck="false" autocapitalize="off" autocomplete="off" autocorrect="off" enterkeyhint="send" aria-label="Terminal command">
+                  </form>
+                </div>
+                <div class="term__hints" role="group" aria-label="Suggested commands">
+                  <button type="button" data-cmd="help">help</button>
+                  <button type="button" data-cmd="fastfetch">fastfetch</button>
+                  <button type="button" data-cmd="man dimitris">man dimitris</button>
+                  <button type="button" data-cmd="systemctl status dimitris">systemctl status dimitris</button>
+                  <button type="button" data-cmd="ls -a">ls -a</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="launcher" id="launcher" hidden>
+            <div class="launcher__scrim" data-close></div>
+            <div class="launcher__box" role="dialog" aria-modal="true" aria-label="App launcher">
+              <input class="launcher__in" id="launchIn" type="text" placeholder="drun: type to search" aria-label="Search apps" autocomplete="off" spellcheck="false">
+              <ul class="launcher__list" id="launchList">
+          <li><button type="button" data-ws="1"><span class="l__k">1</span>README</button></li>
+          <li><button type="button" data-ws="2"><span class="l__k">2</span>Experience</button></li>
+          <li><button type="button" data-ws="3"><span class="l__k">3</span>HomeLab</button></li>
+          <li><button type="button" data-ws="4"><span class="l__k">4</span>Skills</button></li>
+          <li><button type="button" data-ws="5"><span class="l__k">5</span>Education</button></li>
+          <li><button type="button" data-ws="6"><span class="l__k">6</span>Contact</button></li>
+                <li><button type="button" data-act="term"><span class="l__k">&gt;_</span>Terminal (foot)</button></li>
+                <li><button type="button" data-act="cv"><span class="l__k">pdf</span>Download the CV</button></li>
+                <li><button type="button" data-mode="plain"><span class="l__k">txt</span>Plain view</button></li>
+                <li><button type="button" data-act="lid"><span class="l__k">off</span>Close the lid</button></li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="boot" id="boot" aria-hidden="true">
+            <pre class="boot__log" id="bootLog"></pre>
+            <button class="boot__skip" id="bootSkip" type="button" tabindex="-1">Press any key to skip</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="deck__hinge" aria-hidden="true"><span></span><span></span></div>
+    <div class="deck__base">
+      <div class="keys" role="group" aria-label="CV sections">
+        <button class="key" type="button" data-ws="1" aria-pressed="false"><span class="key__n">1</span><span class="key__l">README</span></button>
+        <button class="key" type="button" data-ws="2" aria-pressed="false"><span class="key__n">2</span><span class="key__l">Experience</span></button>
+        <button class="key" type="button" data-ws="3" aria-pressed="false"><span class="key__n">3</span><span class="key__l">HomeLab</span></button>
+        <button class="key" type="button" data-ws="4" aria-pressed="false"><span class="key__n">4</span><span class="key__l">Skills</span></button>
+        <button class="key" type="button" data-ws="5" aria-pressed="false"><span class="key__n">5</span><span class="key__l">Education</span></button>
+        <button class="key" type="button" data-ws="6" aria-pressed="false"><span class="key__n">6</span><span class="key__l">Contact</span></button>
+      </div>
+      <div class="cart">
+        <div class="cart__slot" aria-hidden="true"><span class="cart__chip" id="cartChip">CV.pdf<i></i></span></div>
+        <a class="cart__eject" id="eject" href="Dimitris-Pournatzis-CV.pdf" download><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 5 7 8H5z"/><path d="M5 18h14"/></svg>Download the CV</a>
+      </div>
+    </div>
+
+    <div class="case" id="case" aria-hidden="true">
+      <span class="case__handle"></span>
+      <span class="case__shell">
+        <span class="case__rim"></span>
+        <span class="case__bump case__bump--tl"></span><span class="case__bump case__bump--tr"></span>
+        <span class="case__bump case__bump--bl"></span><span class="case__bump case__bump--br"></span>
+        <span class="case__plate"><b>DP-01</b><i>field deck · S/N DP-2026-ATH</i></span>
+        <span class="sticker sticker--arch"><img src="assets/icons/archlinux.svg" alt="" width="64" height="64"></span>
+        <span class="sticker sticker--home">There's no place like 127.0.0.1</span>
+        <span class="sticker sticker--ok">[ OK ] linux-hardened</span>
+        <span class="case__note">Property of Dimitris Pournatzis · if found, ssh in (you can't)</span>
+      </span>
+      <span class="case__latch case__latch--l"></span><span class="case__latch case__latch--r"></span>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>

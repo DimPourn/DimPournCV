@@ -56,6 +56,7 @@
 }
 
 *, *::before, *::after { box-sizing: border-box; }
+[hidden] { display: none !important; }
 html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; scroll-behavior: auto; scroll-padding-top: 0; }
 body {
   margin: 0;
@@ -447,6 +448,11 @@ h2 {
   .lab__pause[hidden] { display: none; }
 }
 
+/* The deck button lives in the menu on narrow screens */
+@media (max-width: 699.98px) {
+  .nav__deck { display: none; }
+}
+
 /* ── Phone ──────────────────────────────────────── */
 @media (max-width: 599.98px) {
   :root { --gutter: 16px; }
@@ -496,4 +502,5 @@ h2 {
   .hero, .sec { min-height: 0; padding: 16px 0; }
   .grid { display: block; }
   .tile { border: 0; padding: 0; min-height: 0; }
+  .sec--dark, .sec--dark * { color: #000 !important; }
 }
