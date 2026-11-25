@@ -2,13 +2,13 @@
 
 <p align="center">
   <a href="https://dimpourn.github.io/DimPournCV/">
-    <img src="docs/assets/img/og.jpg" width="820" alt="The CV site's opening screen: the name Dimitris Pournatzis, the line &quot;Cybersecurity student looking for a junior SOC, Blue Team or threat intelligence role&quot;, and a blue wireframe globe">
+    <img src="docs/assets/img/og.jpg" width="820" alt="The CV running on an Arch Linux desktop inside a cyberdeck: the README with the name Dimitris Pournatzis, a terminal showing fastfetch, and six keys for the sections">
   </a>
 </p>
 
 <p align="center">
   <a href="https://dimpourn.github.io/DimPournCV/"><b>Live site</b></a> ·
-  <a href="docs/Dimitris-Pournatzis-CV.pdf"><b>PDF CV</b></a> ·
+  <a href="https://dimpourn.github.io/Dimitris-Pournatzis-CV.pdf"><b>PDF CV</b></a> ·
   <a href="https://dimpourn.github.io/sh_lab/">Homelab</a> ·
   <a href="https://www.linkedin.com/in/dimpournatzis/">LinkedIn</a>
 </p>
@@ -20,14 +20,20 @@ no third-party requests.
 
 ## The site
 
-One page in plain HTML, CSS and JavaScript, served by GitHub Pages from `docs/`:
+One page in plain HTML, CSS and JavaScript, served by GitHub Pages from `docs/`. It opens as a
+cyberdeck running Arch Linux:
 
-- a Vanta GLOBE (three.js) behind the name on desktop, with a still image on phones, under reduced
-  motion and when WebGL is unavailable, plus a pause button;
-- a GSAP entrance for the hero, played once on load;
-- a HomeLab diagram that draws itself once when it comes into view; hovering or tapping a point
-  in the list highlights its part of the diagram;
-- everything readable without JavaScript and in print.
+- a closed rugged case; opening it (click, tap or Enter) flips the lid and boots Arch (initramfs
+  hooks, systemd, a tty1 login, Hyprland); any key skips it;
+- on the desktop the CV sections are apps: six keys, the waybar workspaces and the 1 to 6 keys
+  switch them, and the Arch logo opens a launcher;
+- a foot terminal that takes commands (`help`, `ls`, `cat`, `man dimitris`, `fastfetch`, ...);
+- the Vanta GLOBE as the wallpaper on desktop, with a pause toggle and a still image elsewhere;
+- a HomeLab diagram that draws itself once, then shows packets moving through it;
+- a phone layout with a 3 x 2 keypad and one window at a time.
+
+**Plain view** is the same content as a normal page, one click away. It is also what you get
+without JavaScript and when printing.
 
 ## How the page loads
 
@@ -38,11 +44,11 @@ libraries load only when they will be used, and only through one Trusted Types p
 flowchart TD
   A["index.html<br/>CSP: script-src 'self', Trusted Types required"] --> B["boot.js<br/>marks the page as scripted"]
   A --> C["GSAP, ScrollTrigger, DrawSVG<br/>deferred, SRI sha384"]
-  C --> D["app.js<br/>hero entrance, HomeLab diagram"]
+  C --> D["app.js + deck.js<br/>the deck, the terminal, the HomeLab diagram"]
   D --> E{"Desktop pointer, motion allowed<br/>and WebGL available?"}
   E -- yes --> F["Trusted Types policy cv-loader<br/>accepts exactly two same-origin URLs"]
   F --> G["three.js r134, then Vanta GLOBE<br/>SRI sha384 on each"]
-  E -- no --> H["Keep the still image<br/>globe.webp, globe-sm.webp"]
+  E -- no --> H["Keep the still image<br/>wall-desk.webp, wall-phone.webp"]
 ```
 
 ## Security posture
@@ -74,9 +80,10 @@ Python with Chromium, and ImageMagick 7 (`magick`). It serves `docs/` on `127.0.
 
 | Command | What it does |
 | --- | --- |
-| `python3 tools/site.py poster` | Renders the globe and saves the stills `globe.webp` and `globe-sm.webp` |
-| `python3 tools/site.py og` | Renders the 1200×630 link preview `og.jpg` |
-| `python3 tools/site.py check [WxH ...]` | Loads the page at ten screen sizes (or only the ones given) and reports console errors, CSP and Trusted Types violations and overflow; screenshots go to `shots/` |
+| `python3 tools/site.py poster` | Renders the globe stills: `globe.webp`, `globe-sm.webp` (plain view) and `wall-desk.webp`, `wall-phone.webp` (deck wallpaper) |
+| `python3 tools/site.py og` | Renders the 1200×630 link preview `og.jpg` (the open deck) |
+| `python3 tools/site.py deck [WxH ...]` | Opens the deck at ten screen sizes (or only the ones given), visits every app, runs the terminal and reports errors, CSP violations and overflow |
+| `python3 tools/site.py check [WxH ...]` | Loads the plain view at ten screen sizes (or only the ones given) and reports console errors, CSP and Trusted Types violations and overflow; screenshots go to `shots/` |
 | `python3 tools/site.py check-reduced [WxH ...]` | The same check with `prefers-reduced-motion: reduce` |
 
 ## Repository layout
@@ -85,7 +92,6 @@ Python with Chromium, and ImageMagick 7 (`magick`). It serves `docs/` on `127.0.
 | --- | --- |
 | `docs/` | The published site; GitHub Pages serves this folder |
 | `docs/assets/` | CSS, JavaScript, self-hosted fonts, icons and images |
-| `docs/Dimitris-Pournatzis-CV.pdf` | The PDF version of the CV |
 | `tools/site.py` | Local render and check script; not published |
 
 ## License
