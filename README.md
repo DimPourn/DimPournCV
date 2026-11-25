@@ -45,10 +45,10 @@ flowchart TD
   A["index.html<br/>CSP: script-src 'self', Trusted Types required"] --> B["boot.js<br/>marks the page as scripted"]
   A --> C["GSAP, ScrollTrigger, DrawSVG<br/>deferred, SRI sha384"]
   C --> D["app.js + deck.js<br/>the deck, the terminal, the HomeLab diagram"]
-  D --> E{"Desktop pointer, motion allowed<br/>and WebGL available?"}
+  D --> E{"Deck open on a desktop pointer,<br/>motion allowed, WebGL available?"}
   E -- yes --> F["Trusted Types policy cv-loader<br/>accepts exactly two same-origin URLs"]
-  F --> G["three.js r134, then Vanta GLOBE<br/>SRI sha384 on each"]
-  E -- no --> H["Keep the still image<br/>wall-desk.webp, wall-phone.webp"]
+  F --> G["three.js r134, then Vanta GLOBE<br/>as the deck wallpaper, SRI sha384 on each"]
+  E -- no --> H["Keep the still image<br/>deck: wall-desk.webp, wall-phone.webp<br/>plain view: globe.webp, globe-sm.webp"]
 ```
 
 ## Security posture
