@@ -103,23 +103,6 @@
 .key:active { transform: translateY(5px); box-shadow: 0 0 0 #0b0c0e; transition-duration: 60ms; }
 .key:focus-visible { outline: 2px solid var(--arch-hi); outline-offset: 3px; }
 
-/* cartridge */
-.cart {
-  display: flex; align-items: center; gap: 10px; flex: none;
-  width: 290px; height: 84px; box-sizing: border-box; padding: 0 12px;
-  border-radius: 8px; background: #171a1e; border: 1px solid #2a2f36;
-}
-.cart__slot { flex: 1; min-width: 0; height: 46px; box-sizing: border-box; padding: 6px; border-radius: 4px; background: #0e1013; border: 1px solid #2a2f36; overflow: hidden; }
-.cart__chip { display: flex; align-items: center; justify-content: space-between; height: 100%; padding: 0 8px; border-radius: 2px; background: #eef0f3; color: #0b0c0e; font: 500 11px var(--mono); }
-.cart__chip i { width: 8px; height: 8px; background: var(--arch); }
-.cart__eject {
-  display: inline-flex; align-items: center; gap: 7px; height: 46px; padding: 0 12px;
-  border-radius: 4px; background: #eef0f3; color: #0b0c0e; text-decoration: none; font: 500 13px var(--font); white-space: nowrap;
-  transition: transform 120ms var(--ease), background-color 120ms var(--ease);
-}
-.cart__eject svg { width: 15px; height: 15px; fill: currentColor; stroke: currentColor; stroke-width: 1.6; stroke-linejoin: round; }
-@media (hover: hover) and (pointer: fine) { .cart__eject:hover { background: #fff; transform: translateY(-1px); } }
-.cart__eject:active { transform: translateY(1px) scale(.985); }
 
 /* ── The case exterior (closed) ───────────────────────────────────── */
 .deck-on .case { display: block; position: absolute; inset: 0; z-index: 8; container-type: size; cursor: pointer; }
@@ -383,8 +366,6 @@
 @media (max-width: 1099.98px) {
   .keys { gap: 8px; }
   .key { padding: 8px 10px; font-size: 13px; }
-  .cart { width: auto; padding: 0 10px; }
-  .cart__slot { display: none; }
   .ws__l { display: none; }
   .bar__ws button { min-width: 30px; justify-content: center; padding: 0 6px; }
   .ws__n { opacity: 1; }
@@ -399,7 +380,7 @@
 }
 @media (max-height: 720px) and (min-width: 700px) {
   .deck-on .deck__base { height: 96px; padding: 10px 14px; }
-  .key, .cart { height: 68px; }
+  .key { height: 68px; }
   .key { padding: 8px 12px; }
 }
 
@@ -415,7 +396,6 @@
   .key { flex-direction: row; justify-content: flex-start; align-items: center; gap: 8px; height: 46px; padding: 0 10px; font-size: 14px; box-shadow: 0 4px 0 #0b0c0e; border-radius: 8px; }
   .key[aria-pressed="true"] { transform: translateY(3px); box-shadow: 0 1px 0 #0b4f73; }
   .key__n { font-size: 10px; }
-  .cart { display: none; }
 
   .deck-on .bar { left: 6px; right: 6px; top: 6px; height: 44px; gap: 8px; padding: 0 4px; }
   .bar__ws, .bar__ts, .bar__plain, .bar__lid, .bar__wall { display: none; }

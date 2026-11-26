@@ -27,7 +27,6 @@
   var barTitle = $('#barTitle'), announce = $('#announce');
   var launcher = $('#launcher'), launchBtn = $('#launchBtn'), launchIn = $('#launchIn');
   var termBtn = $('#termBtn'), wallBtn = $('#wallBtn'), wallGL = $('#wallGL'), clock = $('#barClock');
-  var eject = $('#eject'), cartChip = $('#cartChip');
   var latches = $$('.case__latch');
   var keyBtns = $$('.keys .key'), wsBtns = $$('.bar__ws button');
   var apps = $$('#main > .app').sort(function (a, b) { return +a.getAttribute('data-ws') - +b.getAttribute('data-ws'); });
@@ -76,7 +75,7 @@
       ['Location', 'Athens, GR']
     ];
     var DIRS = {
-      '~': ['experience/', 'homelab/', 'skills/', 'education/', 'contact/', 'README.md', 'cv.pdf'],
+      '~': ['experience/', 'homelab/', 'skills/', 'education/', 'contact/', 'README.md'],
       '~/experience': ['alpha-bank.md', 'zippo-hellas.md', 'house-of-david.md'],
       '~/homelab': ['README.md'],
       '~/skills': ['skills.txt'],
@@ -95,7 +94,7 @@
       '~/skills/skills.txt': ['security operations   Microsoft Sentinel, log monitoring, alert triage, phishing simulations', 'threat intelligence   IOC analysis workflows, threat reporting', 'host and network      Linux, UFW, CrowdSec, Fail2ban, Tailscale (WireGuard), TLS, Pi-hole, Unbound', 'monitoring            Prometheus, Grafana, Loki, Promtail, Alertmanager', 'security testing      Nmap, Wireshark, Hydra, Kali Linux', 'infrastructure        Docker Compose, bridge networks, least privilege, Git, off-site backups'],
       '~/education/aueb.md': ['## B.Sc. Computer Science, cybersecurity path', 'Athens University of Economics and Business · 2022 – expected 2027'],
       '~/education/certifications.md': ['- OffSec: Threat Hunting Foundations badge', '- OffSec: Security Essentials (SEC100), learning path completed', '- OffSec: Foundational Threat Hunting (TH-200), learning path completed', '- Cadmus: Cyber Regulatory Compliance & Policy Management', '- English: Cambridge English C2 Proficiency (CPE) · Japanese: JLPT N5', '- ISC2 Student Member · 16th Infocom Security Conference'],
-      '~/contact/contact.txt': ['email     dvpournatzis@proton.me', 'github    github.com/DimPourn', 'linkedin  linkedin.com/in/dimpournatzis', ['Type email to write to me, or cv for the PDF.', 'dim']]
+      '~/contact/contact.txt': ['email     dvpournatzis@proton.me', 'github    github.com/DimPourn', 'linkedin  linkedin.com/in/dimpournatzis', ['Type email to write to me.', 'dim']]
     };
     var APPS = { readme: 1, experience: 2, homelab: 3, skills: 4, education: 5, contact: 6 };
     var CMDS = ['help', 'ls', 'cd', 'cat', 'open', 'clear', 'whoami', 'fastfetch', 'neofetch', 'man', 'systemctl', 'journalctl',
@@ -104,7 +103,7 @@
     var HELP = [
       ['apps      readme  experience  homelab  skills  education  contact', 'blue'],
       'files     ls  cd <dir>  cat <file>  pwd',
-      'cv        cv (download the PDF)  email  plain (plain view)',
+      'contact   email (write to me)  plain (plain view)',
       'system    whoami  fastfetch  man dimitris  systemctl status dimitris',
       ['Keys 1 to 6 and the bar at the top switch apps too. Tab completes, arrows recall.', 'dim']
     ];
@@ -226,7 +225,6 @@
         return items.map(function (i) {
           if (i.slice(-1) === '/') return 'drwxr-xr-x 2 dimitris dimitris 4096 Nov 25 ' + i;
           if (i === '.flag') return '-r-------- 1 dimitris dimitris   33 Nov 25 .flag';
-          if (i === 'cv.pdf') return '-rw-r--r-- 1 dimitris dimitris  59K Nov 25 cv.pdf';
           return '-rw-r--r-- 1 dimitris dimitris  412 Nov 25 ' + i;
         });
       }
@@ -240,7 +238,6 @@
       if (p === '/etc/hostname') return ['dp-deck'];
       var key = resolve(p);
       if (FILES[key]) return FILES[key].slice();
-      if (key === '~/cv.pdf') return [['cat: cv.pdf: binary file. Try: cv', 'err']];
       if (DIRS[key]) return [['cat: ' + p + ': Is a directory', 'err']];
       return [['cat: ' + p + ': No such file or directory', 'err']];
     }
@@ -287,7 +284,7 @@
         '       Monitors logs, triages alerts, builds and hardens infrastructure,', '       and writes up what broke and why.', '',
         'OPTIONS', '       --soc          log monitoring and alert triage (Microsoft Sentinel)', '       --threat-intel IOC analysis and threat reporting',
         '       --blue-team    hardening, monitoring and testing the controls', '', 'BUGS',
-        '       Documents incidents in more detail than strictly necessary.', '', 'SEE ALSO', '       sh_lab(7), cv.pdf(5)'];
+        '       Documents incidents in more detail than strictly necessary.', '', 'SEE ALSO', '       sh_lab(7)'];
     }
     function systemctl(a) {
       var verb = a[1] || '', unit = (a[2] || '').replace(/\.service$/, '');
@@ -330,8 +327,7 @@
       return pre;
     }
     function cv() {
-      eject.click();
-      return [['Downloading Dimitris-Pournatzis-CV.pdf ...', 'ok']];
+      return [['My CV is not public. Type email and ask me for a copy.', 'dim']];
     }
 
     function exec(cmd, a) {
@@ -342,7 +338,7 @@
       if (name === 'open' || name === 'xdg-open') {
         var t = (a[1] || '').replace(/\/$/, '').toLowerCase();
         if (APPS[t]) return openApp(t);
-        if (t === 'cv' || t === 'cv.pdf') return cv();
+        if (t === 'cv') return cv();
         return [['open: ' + (a[1] || '') + ': no such app. Try: open homelab', 'err']];
       }
       if (name === 'cd') return cd(a[1]);
@@ -711,7 +707,6 @@
     if (b.hasAttribute('data-mode')) return;
     if (b.getAttribute('data-ws')) setWS(+b.getAttribute('data-ws'));
     else if (b.getAttribute('data-act') === 'term') openTerm();
-    else if (b.getAttribute('data-act') === 'cv') eject.click();
     else if (b.getAttribute('data-act') === 'lid') closeLid();
   });
 
@@ -847,9 +842,6 @@
     }
   });
   $('#lidBtn').addEventListener('click', closeLid);
-  eject.addEventListener('click', function () {
-    if (!mqReduce.matches) gsap.fromTo(cartChip, { y: 0 }, { y: -10, duration: 0.16, yoyo: true, repeat: 1, ease: 'power2.out' });
-  });
   wm.addEventListener('focusin', function (e) { var w = e.target.closest('.win'); if (w) focusWin(w); });
   wm.addEventListener('pointerdown', function (e) { var w = e.target.closest('.win'); if (w) focusWin(w); });
   $('.skip').addEventListener('click', function (e) {

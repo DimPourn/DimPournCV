@@ -29,13 +29,13 @@
 <link rel="preload" href="assets/fonts/chivo-latin-wght.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/chivo-mono-latin-wght.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/css/site.css?v=3">
-<link rel="stylesheet" href="assets/css/deck.css?v=3">
+<link rel="stylesheet" href="assets/css/deck.css?v=4">
 <script src="assets/js/boot.js?v=3"></script>
 <script src="assets/js/vendor/gsap.min.js" integrity="sha384-HOvlOYPIs/zjoIkWUGXkVmXsjr8GuZLV+Q+rcPwmJOVZVpvTSXQChiN4t9Euv9Vc" defer></script>
 <script src="assets/js/vendor/ScrollTrigger.min.js" integrity="sha384-P8VzCVnT9NBUkMrpcIZrJbA7EBjJvh/fJS6PmP+4nLIM284DtsImIv8D0fFjIkeh" defer></script>
 <script src="assets/js/vendor/DrawSVGPlugin.min.js" integrity="sha384-hk4mr+NXgJSfCJFF+LKzt26e6ZekZmmXAesF9r58nbaoAqB/VAlvY4T8k2plkXf+" defer></script>
 <script src="assets/js/app.js?v=3" defer></script>
-<script src="assets/js/deck.js?v=3" defer></script>
+<script src="assets/js/deck.js?v=4" defer></script>
 </head>
 <body>
 <!-- Deal (tasteskill 2.5): palette cool-grey-cobalt (plain view) with Arch blue in the deck, type Chivo + Chivo Mono, radius sharp.
@@ -56,7 +56,7 @@
       <a href="#contact">Contact</a>
     </nav>
     <button class="btn btn--ghost btn--sm nav__deck" type="button" data-mode="deck" hidden>Open the deck</button>
-    <a class="btn btn--primary btn--sm nav__cta" href="/Dimitris-Pournatzis-CV.pdf" download>Download the CV</a>
+    <a class="btn btn--primary btn--sm nav__cta" href="mailto:dvpournatzis@proton.me">Email me</a>
     <button class="nav__toggle" id="menuToggle" type="button" aria-expanded="false" aria-controls="menu" aria-label="Open the menu">
       <span aria-hidden="true"></span><span aria-hidden="true"></span>
     </button>
@@ -71,7 +71,7 @@
     <a href="#education">Education</a>
     <a href="#contact">Contact</a>
     <button class="btn btn--ghost menu__deck" type="button" data-mode="deck" hidden>Open the deck</button>
-    <a class="btn btn--primary menu__cta" href="/Dimitris-Pournatzis-CV.pdf" download>Download the CV</a>
+    <a class="btn btn--primary menu__cta" href="mailto:dvpournatzis@proton.me">Email me</a>
   </nav>
 </div>
 
@@ -83,7 +83,6 @@
     <p class="intro__line">Cybersecurity student in Athens · junior SOC, Blue Team and threat intelligence</p>
     <div class="intro__actions">
       <button class="btn btn--arch" id="openDeck" type="button">Open the deck</button>
-      <a class="btn btn--ghost-inv" href="/Dimitris-Pournatzis-CV.pdf" download>Download the CV</a>
     </div>
     <p class="intro__hint"><span class="intro__key">or press Enter</span> · <button class="intro__plain" type="button" data-mode="plain">Plain view</button></p>
   </div>
@@ -144,9 +143,7 @@
       <p class="hero__role enter-fade">Cybersecurity student looking for a junior SOC, Blue&nbsp;Team or threat intelligence role.</p>
       <p class="hero__lead enter-fade">At Alpha Bank, from March to May 2026, I monitored security logs and supported alert triage in Microsoft Sentinel. At home I run a hardened, monitored homelab on a Raspberry&nbsp;Pi&nbsp;5.</p>
       <div class="hero__actions enter-fade">
-        <a class="btn btn--primary" href="/Dimitris-Pournatzis-CV.pdf" download>
-          <svg class="btn__ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11m0 0 4.5-4.5M12 15l-4.5-4.5M5 20h14"/></svg>Download the CV</a>
-        <a class="btn btn--ghost" href="mailto:dvpournatzis@proton.me">Email me</a>
+        <a class="btn btn--primary" href="mailto:dvpournatzis@proton.me">Email me</a>
       </div>
       <p class="hero__deckhint">Use the keys under the screen, the bar at the top, or 1 to 6 on your keyboard. The terminal takes commands too: try <kbd>help</kbd>.</p>
     </div>
@@ -458,7 +455,7 @@
   <!-- 6 · CONTACT (dark close) -->
   <section class="sec sec--dark close app" id="contact" data-ws="6" data-slug="contact" data-title="contact/" aria-labelledby="contact-h" data-theme="dark">
     <div class="wrap close__in">
-      <h2 id="contact-h">Contact and CV</h2>
+      <h2 id="contact-h">Contact</h2>
       <p class="sec__sub">I'm in Athens, Greece, looking for a junior SOC Analyst, Blue Team or Threat Intelligence role. Email is the best way to reach me.</p>
       <div class="close__mail">
         <a class="close__addr" href="mailto:dvpournatzis@proton.me">dvpournatzis@proton.me</a>
@@ -466,10 +463,6 @@
           <svg class="copy__ic" viewBox="0 0 24 24" aria-hidden="true"><rect class="i-copy" x="8" y="8" width="12" height="12" rx="1.5"/><path class="i-copy" d="M16 8V5.5A1.5 1.5 0 0 0 14.5 4h-9A1.5 1.5 0 0 0 4 5.5v9A1.5 1.5 0 0 0 5.5 16H8"/><path class="i-done" d="m5 12.5 4.5 4.5L19 7.5"/></svg>
           <span class="copy__txt" aria-live="polite">Copy the address</span>
         </button>
-      </div>
-      <div class="close__actions">
-        <a class="btn btn--inv" href="/Dimitris-Pournatzis-CV.pdf" download>
-          <svg class="btn__ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11m0 0 4.5-4.5M12 15l-4.5-4.5M5 20h14"/></svg>Download the CV</a>
       </div>
       <ul class="close__links">
         <li><a class="tile" href="https://github.com/DimPourn" target="_blank" rel="noopener noreferrer"><img class="tile__ic tile__ic--ink" loading="lazy" src="assets/icons/github.svg" alt="" width="24" height="24"><span>GitHub</span></a></li>
@@ -521,7 +514,6 @@
           <li><button type="button" data-ws="5"><span class="l__k">5</span>Education</button></li>
           <li><button type="button" data-ws="6"><span class="l__k">6</span>Contact</button></li>
                 <li><button type="button" data-act="term"><span class="l__k">&gt;_</span>Terminal (foot)</button></li>
-                <li><button type="button" data-act="cv"><span class="l__k">pdf</span>Download the CV</button></li>
                 <li><button type="button" data-mode="plain"><span class="l__k">txt</span>Plain view</button></li>
                 <li><button type="button" data-act="lid"><span class="l__k">off</span>Close the lid</button></li>
               </ul>
@@ -544,10 +536,6 @@
         <button class="key" type="button" data-ws="4" aria-pressed="false"><span class="key__n">4</span><span class="key__l">Skills</span></button>
         <button class="key" type="button" data-ws="5" aria-pressed="false"><span class="key__n">5</span><span class="key__l">Education</span></button>
         <button class="key" type="button" data-ws="6" aria-pressed="false"><span class="key__n">6</span><span class="key__l">Contact</span></button>
-      </div>
-      <div class="cart">
-        <div class="cart__slot" aria-hidden="true"><span class="cart__chip" id="cartChip">CV.pdf<i></i></span></div>
-        <a class="cart__eject" id="eject" href="/Dimitris-Pournatzis-CV.pdf" download><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 5 7 8H5z"/><path d="M5 18h14"/></svg>Download the CV</a>
       </div>
     </div>
 

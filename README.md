@@ -8,7 +8,6 @@
 
 <p align="center">
   <a href="https://dimpourn.github.io/DimPournCV/"><b>Live site</b></a> ·
-  <a href="https://dimpourn.github.io/Dimitris-Pournatzis-CV.pdf"><b>PDF CV</b></a> ·
   <a href="https://dimpourn.github.io/sh_lab/">Homelab</a> ·
   <a href="https://www.linkedin.com/in/dimpournatzis/">LinkedIn</a>
 </p>
